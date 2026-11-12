@@ -1,0 +1,6 @@
+[
+  {"trip_id": "T9001", "employee_id": "E105", "origin": "DEL", "destination": "BOM", "depart_date": "2026-10-05", "fare_inr": 8500, "status": "completed", "clause_id": "TP-2.2", "decided_by": "system"},
+  {"trip_id": "T9002", "employee_id": "E105", "origin": "DEL", "destination": "BLR", "depart_date": "2026-10-18", "fare_inr": 9200, "status": "completed", "clause_id": "TP-2.2", "decided_by": "system"},
+  {"trip_id": "T9003", "employee_id": "E105", "origin": "DEL", "destination": "HYD", "depart_date": "2026-11-02", "fare_inr": 7600, "status": "completed", "clause_id": "TP-2.2", "decided_by": "system"},
+  {"trip_id": "T8001", "employee_id": "E101", "origin": "DEL", "destination": "CCU", "depart_date": "2026-09-15", "fare_inr": 8000, "status": "completed", "clause_id": "TP-2.2", "decided_by": "system"}
+]

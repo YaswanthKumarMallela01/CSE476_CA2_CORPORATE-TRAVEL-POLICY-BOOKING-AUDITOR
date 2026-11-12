@@ -1,0 +1,5 @@
+[
+  {"department": "SALES", "remaining_inr": 120000},
+  {"department": "ENG", "remaining_inr": 300000},
+  {"department": "OPS", "remaining_inr": 9000}
+]

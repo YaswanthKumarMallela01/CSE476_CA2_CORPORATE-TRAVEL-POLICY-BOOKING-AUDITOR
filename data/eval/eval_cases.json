@@ -1,0 +1,72 @@
+[
+  {
+    "case_id": 1,
+    "request_text": "I need to fly Delhi to Mumbai on 2 Dec 2026, returning 3 Dec 2026, for a client meeting. Economy class please. Employee E101.",
+    "expected_decision": "APPROVE",
+    "expected_primary_clause": "TP-2.2",
+    "expected_best_fare_inr": 9500
+  },
+  {
+    "case_id": 2,
+    "request_text": "Book me a Business class flight from Delhi to Bangalore, departing 27 Nov 2026, return 28 Nov. Purpose: client meeting. I am employee E101.",
+    "expected_decision": "MODIFY",
+    "expected_primary_clause": "TP-2.1",
+    "expected_best_fare_inr": 7800
+  },
+  {
+    "case_id": 3,
+    "request_text": "Urgent travel needed. Delhi to Goa on 15 Nov 2026, returning 16 Nov. Client meeting. Economy. Employee E101.",
+    "expected_decision": "ESCALATE",
+    "expected_primary_clause": "TP-1.1",
+    "expected_best_fare_inr": null
+  },
+  {
+    "case_id": 4,
+    "request_text": "Please book Bangalore to Singapore, departing 12 Dec 2026, returning 15 Dec 2026. Conference attendance. Economy class. Employee E102.",
+    "expected_decision": "APPROVE",
+    "expected_primary_clause": "TP-2.2",
+    "expected_best_fare_inr": 72000
+  },
+  {
+    "case_id": 5,
+    "request_text": "Need Delhi to Hyderabad flight on 1 Dec 2026, return 2 Dec 2026. For training. Economy, fare approximately INR 22,000. Employee E102.",
+    "expected_decision": "MODIFY",
+    "expected_primary_clause": "TP-2.2",
+    "expected_best_fare_inr": 12800
+  },
+  {
+    "case_id": 6,
+    "request_text": "I want to travel from Delhi to Goa on 5 Dec 2026, returning 8 Dec 2026. Purpose: family vacation. Economy class. Employee E101.",
+    "expected_decision": "ESCALATE",
+    "expected_primary_clause": "TP-6.1",
+    "expected_best_fare_inr": null
+  },
+  {
+    "case_id": 7,
+    "request_text": "Business class travel from Delhi to London, departing 7 Dec 2026, returning 12 Dec 2026. Client meeting. Employee E103.",
+    "expected_decision": "APPROVE",
+    "expected_primary_clause": "TP-2.1",
+    "expected_best_fare_inr": 85000
+  },
+  {
+    "case_id": 8,
+    "request_text": "Mumbai to Delhi on 30 Nov 2026, return 1 Dec 2026. Project delivery work. Economy. Employee E104.",
+    "expected_decision": "ESCALATE",
+    "expected_primary_clause": "TP-4.1",
+    "expected_best_fare_inr": null
+  },
+  {
+    "case_id": 9,
+    "request_text": "Delhi to Kolkata, departing 3 Dec 2026, return 4 Dec 2026. Purpose: audit. Economy at INR 8000. Employee E105.",
+    "expected_decision": "ESCALATE",
+    "expected_primary_clause": "TP-7.1",
+    "expected_best_fare_inr": null
+  },
+  {
+    "case_id": 10,
+    "request_text": "Book Business class Delhi to New York JFK, departing 10 Dec 2026, returning 17 Dec 2026. Conference. Employee E103. Fare around INR 145,000.",
+    "expected_decision": "ESCALATE",
+    "expected_primary_clause": "TP-9.1",
+    "expected_best_fare_inr": null
+  }
+]
