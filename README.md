@@ -90,7 +90,13 @@ startup with a clear message if `GOOGLE_API_KEY` is missing.
 
 ## Run Commands
 
-### Audit a single request
+### Interactive Web Application (Flask Web UI & REST API)
+```bash
+python app.py
+```
+Open **http://127.0.0.1:5000** in your browser. Includes interactive Audit Request forms, 1-click Preset Cases, Human Review Queue with live verdict flowback, 10-Case Benchmark runner, Budget Ledger, and Audit Trail.
+
+### Audit a single request (CLI)
 ```bash
 python main.py audit "I need to fly Delhi to Mumbai on 2 Dec 2026 for a client meeting. Economy. Employee E101."
 ```

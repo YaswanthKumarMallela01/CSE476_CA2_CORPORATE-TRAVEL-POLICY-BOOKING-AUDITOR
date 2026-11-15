@@ -12,7 +12,10 @@ import re
 from typing import Any, Optional
 
 from semantic_kernel import Kernel
-from semantic_kernel.connectors.ai.google.google_ai import GoogleAIChatCompletion
+from semantic_kernel.connectors.ai.google.google_ai import (
+    GoogleAIChatCompletion,
+    GoogleAIChatPromptExecutionSettings,
+)
 from semantic_kernel.contents import ChatHistory
 
 import config
@@ -60,6 +63,14 @@ def get_chat_service() -> GoogleAIChatCompletion:
     )
 
 
+def _get_execution_settings() -> GoogleAIChatPromptExecutionSettings:
+    """Create execution settings for Gemini chat completion."""
+    return GoogleAIChatPromptExecutionSettings(
+        temperature=0.2,
+        max_tokens=1024,
+    )
+
+
 async def llm_call(
     prompt: str,
     system_message: str = "",
@@ -97,10 +108,11 @@ async def llm_call(
         history.add_system_message(system_message)
     history.add_user_message(prompt)
 
+    settings = _get_execution_settings()
     limiter = get_rate_limiter()
 
     async def _do_call():
-        result = await service.get_chat_message_contents(history)
+        result = await service.get_chat_message_contents(history, settings)
         return str(result[0]) if result else ""
 
     try:
