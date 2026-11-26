@@ -54,8 +54,8 @@ def get_rag() -> PolicyRAG:
     return rag
 
 
-async def cmd_audit(raw_text: str, use_llm: bool = True) -> None:
-    """Audit a single travel request."""
+async def cmd_audit(raw_text: str, use_llm: bool = True, allow_clarification: bool = False) -> None:
+    """Audit a single travel request (with optional interactive follow-up questions)."""
     from agents.approval_manager import ApprovalManager
 
     memory = get_memory()
@@ -63,7 +63,27 @@ async def cmd_audit(raw_text: str, use_llm: bool = True) -> None:
     manager = ApprovalManager(memory, rag, use_llm=use_llm)
 
     console.print(Panel(raw_text, title="Travel Request", border_style="blue"))
-    result = await manager.process_request(raw_text)
+    result = await manager.process_request(raw_text, allow_clarification=allow_clarification)
+
+    # Interactive follow-up loop if clarification is required
+    if result.decision == Decision.NEEDS_INFO:
+        console.print(Panel(result.clarification_message, title="Follow-Up Questions Required", border_style="yellow"))
+        clarifications = {}
+        for q in result.follow_up_questions:
+            if not q.get("required", True):
+                continue
+            opts = q.get("options")
+            if opts and q["field"] == "employee_id":
+                console.print("[cyan]Available Employees:[/cyan] " + ", ".join(o["label"] for o in opts))
+            val = console.input(f"[bold yellow]{q['question']}[/bold yellow] ").strip()
+            field_map = {"origin_iata": "origin", "destination_iata": "destination"}
+            clarifications[field_map.get(q["field"], q["field"])] = val
+        result = await manager.process_request(
+            raw_text,
+            allow_clarification=False,
+            clarifications=clarifications,
+            request_id=result.request_id,
+        )
 
     # Display result
     color = {"APPROVE": "green", "MODIFY": "yellow", "ESCALATE": "red"}.get(result.decision.value, "white")
@@ -71,12 +91,19 @@ async def cmd_audit(raw_text: str, use_llm: bool = True) -> None:
     table.add_column("Field", style="cyan")
     table.add_column("Value", style=color)
     table.add_row("Request ID", result.request_id)
+    if result.employee_id:
+        table.add_row("Employee", f"{result.employee_name} ({result.employee_id}, {result.employee_department}, {result.employee_grade})")
+    if result.origin_iata or result.destination_iata:
+        table.add_row("Route & Date", f"{result.origin_iata} -> {result.destination_iata} | Depart: {result.depart_date}")
     table.add_row("Decision", result.decision.value)
     table.add_row("Primary Clause", result.primary_clause_id)
     table.add_row("Secondary Clauses", ", ".join(result.secondary_clause_ids) or "None")
     if result.best_compliant_fare:
         fare = result.best_compliant_fare
         table.add_row("Best Fare", f"{fare.airline} INR {fare.price_inr:,.0f} ({fare.cabin.value})")
+    elif result.recommended_fare:
+        rf = result.recommended_fare
+        table.add_row("Best Fare", f"None (Lowest Searched: {rf.airline} INR {rf.price_inr:,.0f})")
     else:
         table.add_row("Best Fare", "None")
     table.add_row("Justification", result.justification)
@@ -105,18 +132,29 @@ def cmd_review_list() -> None:
         return
     table = Table(title="Review Queue")
     table.add_column("Request ID", style="cyan")
+    table.add_column("Employee")
+    table.add_column("Route / Date")
+    table.add_column("Fare (INR)")
+    table.add_column("Clause")
     table.add_column("Status", style="bold")
     table.add_column("Verdict")
     table.add_column("Note")
-    table.add_column("Reviewed At")
     for item in items:
+        aud = json.loads(item.audit_result_json) if item.audit_result_json else {}
+        emp_lbl = f"{aud.get('employee_name', '')} ({aud.get('employee_id', '?')})"
+        route_lbl = f"{aud.get('origin_iata', '?')}->{aud.get('destination_iata', '?')} ({aud.get('depart_date', '?')})"
+        fare_obj = aud.get("best_compliant_fare") or aud.get("recommended_fare") or {}
+        fare_lbl = f"INR {fare_obj['price_inr']:,.0f}" if fare_obj.get("price_inr") else "-"
         color = {"PENDING": "yellow", "HUMAN_APPROVED": "green", "HUMAN_REJECTED": "red", "HUMAN_MODIFIED": "blue"}.get(item.status, "white")
         table.add_row(
             item.request_id,
+            emp_lbl,
+            route_lbl,
+            fare_lbl,
+            aud.get("primary_clause_id", "-"),
             f"[{color}]{item.status}[/{color}]",
             item.human_verdict or "-",
-            (item.human_note or "-")[:50],
-            str(item.reviewed_at or "-"),
+            (item.human_note or "-")[:40],
         )
     console.print(table)
     memory.close()
@@ -189,6 +227,7 @@ def main():
     audit_parser = subparsers.add_parser("audit", help="Audit a single travel request")
     audit_parser.add_argument("request", help="Natural language travel request text")
     audit_parser.add_argument("--no-llm", action="store_true", help="Disable LLM (use fallbacks)")
+    audit_parser.add_argument("--interactive", action="store_true", help="Ask follow-up questions if info is missing")
 
     # eval command
     subparsers.add_parser("eval", help="Run full evaluation suite")
@@ -208,7 +247,7 @@ def main():
     args = parser.parse_args()
 
     if args.command == "audit":
-        asyncio.run(cmd_audit(args.request, use_llm=not args.no_llm))
+        asyncio.run(cmd_audit(args.request, use_llm=not args.no_llm, allow_clarification=args.interactive))
     elif args.command == "eval":
         asyncio.run(cmd_eval())
     elif args.command == "review":

@@ -3,92 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Policy Auditor — CSE476 CA2</title>
-    <!-- Google Fonts: Plus Jakarta Sans -->
+    <title>Corporate Travel Policy Booking Auditor — CSE476 CA2</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome 6.5.1 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-    
     <style>
         :root {
             --brand-primary: #0f172a;
-            --brand-accent: #2563eb;
-            --brand-accent-hover: #1d4ed8;
-            --brand-gradient: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
-            --bg-body: #f8fafc;
+            --brand-accent: #4f46e5;
+            --brand-accent-hover: #4338ca;
+            --brand-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #3730a3 100%);
+            --bg-body: #f1f5f9;
             --card-bg: #ffffff;
-            --card-border: rgba(226, 232, 240, 0.85);
+            --card-border: rgba(203, 213, 225, 0.75);
             --text-main: #0f172a;
             --text-muted: #64748b;
             --success-color: #10b981;
             --warning-color: #f59e0b;
             --danger-color: #ef4444;
-            --info-color: #06b6d4;
         }
 
         body {
-            background-color: var(--bg-body);
+            background: radial-gradient(circle at top right, #e0e7ff 0%, #f1f5f9 45%, #f8fafc 100%);
+            min-height: 100vh;
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--text-main);
             letter-spacing: -0.01em;
-            overflow-x: hidden;
         }
 
-        code, pre {
+        code, pre, .font-mono {
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Top Hero Navbar */
+        /* Hero Navbar */
         .navbar-hero {
             background: var(--brand-gradient);
             padding: 18px 0;
-            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 12px 28px -8px rgba(15, 23, 42, 0.35);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
         }
 
         .navbar-brand-title {
-            font-size: 1.35rem;
+            font-size: 1.32rem;
             font-weight: 800;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.025em;
             color: #ffffff;
         }
 
         .navbar-brand-sub {
-            font-size: 0.82rem;
-            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.8rem;
+            color: rgba(226, 232, 240, 0.85);
             font-weight: 500;
         }
 
         .status-pill {
             background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #ffffff;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 30px;
+            padding: 6px 13px;
+            border-radius: 999px;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.2s ease;
-        }
-        .status-pill:hover {
-            background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Modern Tabs Navigation */
+        /* Tabs Bar */
         .custom-tabs-container {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
             border-radius: 16px;
             padding: 6px;
-            box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.05), 0 2px 6px -2px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 8px 20px -6px rgba(15, 23, 42, 0.08);
             border: 1px solid var(--card-border);
-            margin-bottom: 26px;
+            margin-bottom: 24px;
         }
 
         .nav-tabs {
@@ -100,10 +92,10 @@
             border: none;
             color: var(--text-muted);
             font-weight: 600;
-            font-size: 0.88rem;
-            padding: 10px 18px;
-            border-radius: 12px;
-            transition: all 0.25s ease;
+            font-size: 0.86rem;
+            padding: 10px 16px;
+            border-radius: 11px;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -111,31 +103,30 @@
 
         .nav-tabs .nav-link:hover {
             color: var(--brand-accent);
-            background: #f1f5f9;
+            background: #eef2ff;
         }
 
         .nav-tabs .nav-link.active {
             color: #ffffff;
-            background: var(--brand-accent);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            box-shadow: 0 6px 14px rgba(79, 70, 229, 0.3);
         }
 
-        /* Cards */
+        /* Glass Cards */
         .glass-card {
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.96);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            border-radius: 18px;
+            box-shadow: 0 12px 30px -8px rgba(15, 23, 42, 0.06);
             padding: 24px;
-            margin-bottom: 24px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-bottom: 22px;
         }
 
         /* Preset Chips */
         .preset-chip {
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            padding: 6px 12px;
+            padding: 5px 11px;
             border-radius: 8px;
             cursor: pointer;
             border: 1px solid transparent;
@@ -144,58 +135,44 @@
             align-items: center;
             gap: 5px;
             margin: 2px;
-            background: #f1f5f9;
-            color: #334155;
         }
-
         .preset-chip:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
         }
+        .preset-chip.chip-approve { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+        .preset-chip.chip-modify { background: #fffbeb; color: #92400e; border-color: #fde68a; }
+        .preset-chip.chip-escalate { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+        .preset-chip.chip-clarify { background: #eef2ff; color: #3730a3; border-color: #c7d2fe; }
 
-        .preset-chip.chip-approve {
-            background: #ecfdf5;
-            color: #065f46;
-            border-color: #a7f3d0;
-        }
-        .preset-chip.chip-modify {
-            background: #fffbeb;
-            color: #92400e;
-            border-color: #fde68a;
-        }
-        .preset-chip.chip-escalate {
-            background: #fef2f2;
-            color: #991b1b;
-            border-color: #fecaca;
-        }
-
-        /* Multi-Agent Live Stepper */
+        /* Agent Stepper */
         .agent-stepper {
             display: none;
             background: #f8fafc;
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 16px;
-            margin-bottom: 20px;
+            margin-top: 18px;
             border: 1px dashed #cbd5e1;
         }
-
         .agent-step {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             font-weight: 600;
             color: var(--text-muted);
-            padding: 6px 0;
-            transition: color 0.3s;
+            padding: 5px 0;
         }
+        .agent-step.active { color: var(--brand-accent); }
+        .agent-step.completed { color: var(--success-color); }
 
-        .agent-step.active {
-            color: var(--brand-accent);
-        }
-
-        .agent-step.completed {
-            color: var(--success-color);
+        /* Follow-up Clarification Card */
+        .clarify-card {
+            background: linear-gradient(135deg, #eef2ff 0%, #ffffff 100%);
+            border: 2px solid #818cf8;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 12px 30px -8px rgba(79, 70, 229, 0.18);
         }
 
         /* Decision Hero Banner */
@@ -205,101 +182,100 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             color: #ffffff;
-            box-shadow: 0 8px 20px -4px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 24px -6px rgba(15, 23, 42, 0.22);
         }
+        .banner-approve { background: linear-gradient(135deg, #059669 0%, #10b981 100%); }
+        .banner-modify { background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%); }
+        .banner-escalate { background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%); }
 
-        .banner-approve {
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-        }
-        .banner-modify {
-            background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
-        }
-        .banner-escalate {
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-        }
-
-        /* Boarding Pass Flight Ticket */
+        /* Boarding Pass Ticket */
         .ticket-card {
             background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
-            border: 2px dashed #86efac;
+            border: 2px dashed #4ade80;
             border-radius: 16px;
             padding: 20px;
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
-
         .ticket-airline-logo {
-            width: 44px;
-            height: 44px;
-            background: #10b981;
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, #059669, #10b981);
             color: #ffffff;
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            font-weight: 800;
+            font-size: 1.25rem;
         }
 
-        /* Metric KPI Cards */
-        .kpi-card {
-            background: #ffffff;
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 22px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            position: relative;
-            overflow: hidden;
+        /* Dossier Grid Pills */
+        .dossier-chip {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 10px 14px;
         }
-
-        .kpi-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--brand-accent);
-        }
-
-        .kpi-card.kpi-success::before { background: var(--success-color); }
-        .kpi-card.kpi-warning::before { background: var(--warning-color); }
-        .kpi-card.kpi-info::before { background: var(--info-color); }
-
-        .kpi-val {
-            font-size: 2.3rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            margin-bottom: 4px;
-        }
-
-        .kpi-lbl {
-            font-size: 0.8rem;
+        .dossier-label {
+            font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--text-muted);
         }
+        .dossier-val {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* Review Dossier Card */
+        .review-dossier-card {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-left: 5px solid #f59e0b;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -8px rgba(15, 23, 42, 0.08);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .review-dossier-header {
+            background: linear-gradient(90deg, #fffbeb 0%, #ffffff 100%);
+            padding: 16px 22px;
+            border-bottom: 1px solid #fef3c7;
+        }
+
+        /* KPI Cards */
+        .kpi-card {
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.04);
+            position: relative;
+            overflow: hidden;
+        }
+        .kpi-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--brand-accent); }
+        .kpi-card.kpi-success::before { background: #10b981; }
+        .kpi-card.kpi-warning::before { background: #f59e0b; }
+        .kpi-card.kpi-info::before { background: #06b6d4; }
+        .kpi-val { font-size: 2.15rem; font-weight: 800; letter-spacing: -0.03em; }
+        .kpi-lbl { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
 
         /* Timeline */
         .timeline-container {
             border-left: 2px solid #e2e8f0;
-            padding-left: 22px;
-            margin-left: 12px;
+            padding-left: 20px;
+            margin-left: 10px;
         }
-
-        .timeline-step {
-            position: relative;
-            margin-bottom: 18px;
-        }
-
+        .timeline-step { position: relative; margin-bottom: 16px; }
         .timeline-step::before {
             content: "";
             position: absolute;
-            left: -28px;
+            left: -26px;
             top: 4px;
             width: 10px;
             height: 10px;
@@ -309,122 +285,95 @@
             box-shadow: 0 0 0 2px var(--brand-accent);
         }
 
-        /* Precedence Pill Flow */
+        .budget-progress { height: 10px; border-radius: 8px; background-color: #e2e8f0; overflow: hidden; }
+        .budget-progress-bar { height: 100%; border-radius: 8px; transition: width 0.6s ease; }
+
         .precedence-flow-pill {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 8px 14px;
+            padding: 7px 13px;
             border-radius: 10px;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             font-weight: 700;
             background: #ffffff;
             border: 1px solid var(--card-border);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        /* Modern Progress Bars */
-        .budget-progress {
-            height: 10px;
-            border-radius: 8px;
-            background-color: #f1f5f9;
-            overflow: hidden;
-        }
-
-        .budget-progress-bar {
-            height: 100%;
-            border-radius: 8px;
-            transition: width 0.6s ease;
-        }
-
-        /* Badges */
-        .badge-status {
-            font-size: 0.76rem;
-            font-weight: 700;
-            padding: 5px 10px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
         }
 
         .custom-textarea {
             border-radius: 12px;
-            border: 1px solid var(--card-border);
+            border: 1px solid #cbd5e1;
             padding: 14px;
             font-size: 0.95rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
         }
         .custom-textarea:focus {
             border-color: var(--brand-accent);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1080;
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Hero Navigation Header -->
+    <!-- Top Hero Navbar -->
     <header class="navbar-hero">
         <div class="container-fluid px-lg-5">
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
                 <div class="d-flex align-items-center gap-3">
-                    <div class="p-3 bg-white bg-opacity-10 rounded-3 text-white fs-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 52px; height: 52px;">
+                    <div class="p-3 bg-white bg-opacity-10 rounded-3 text-white fs-3 d-flex align-items-center justify-content-center" style="width: 52px; height: 52px;">
                         <i class="fa-solid fa-plane-departure text-warning"></i>
                     </div>
                     <div>
                         <div class="navbar-brand-title">Corporate Travel Policy Booking Auditor</div>
-                        <div class="navbar-brand-sub">CSE476 CA2 · Group 15 (Q15) · Yaswanth Kumar Mallela (12315067) · 30 Marks</div>
+                        <div class="navbar-brand-sub">CSE476 CA2 · Group 15 (Q15) · Yaswanth Kumar Mallela (12315067) · Semantic Kernel + ChromaDB RAG</div>
                     </div>
                 </div>
-
-                <!-- Live System State Badges -->
                 <div class="d-flex flex-wrap align-items-center gap-2">
-                    <span class="status-pill">
-                        <i class="fa-solid fa-calendar-day text-info"></i> Today: <span id="todayDisplay" class="fw-bold">2026-11-12</span>
-                    </span>
-                    <span class="status-pill">
-                        <i class="fa-solid fa-database text-success"></i> SQLite MemoryStore
-                    </span>
-                    <span class="status-pill">
-                        <i class="fa-solid fa-brain text-warning"></i> ChromaDB Vector RAG
-                    </span>
-                    <span class="status-pill">
-                        <i class="fa-solid fa-robot text-primary"></i> 5-Agent Pipeline
-                    </span>
+                    <span class="status-pill"><i class="fa-solid fa-calendar-day text-info"></i> Today: <span id="todayDisplay" class="fw-bold">2026-11-12</span></span>
+                    <span class="status-pill"><i class="fa-solid fa-microchip text-warning"></i> <span id="activeModelDisplay">gemini-3-flash-preview</span></span>
+                    <span class="status-pill"><i class="fa-solid fa-database text-success"></i> SQLite Memory</span>
+                    <span class="status-pill"><i class="fa-solid fa-brain text-info"></i> ChromaDB RAG</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main App Body -->
+    <!-- Main Container -->
     <main class="container-fluid px-lg-5 py-4">
 
-        <!-- Tabbed Navigation Bar -->
+        <!-- Navigation Tabs -->
         <nav class="custom-tabs-container">
-            <ul class="nav nav-tabs" id="mainTab" role="tablist">
+            <ul class="nav nav-tabs flex-wrap" id="mainTab" role="tablist">
                 <li class="nav-item">
                     <button class="nav-link active" id="tab-audit-btn" data-bs-toggle="tab" data-bs-target="#tab-audit" type="button">
-                        <i class="fa-solid fa-magnifying-glass-chart"></i> Audit Travel Request
+                        <i class="fa-solid fa-comments-dollar"></i> Audit Travel Request
                     </button>
                 </li>
                 <li class="nav-item">
                     <button class="nav-link" id="tab-review-btn" data-bs-toggle="tab" data-bs-target="#tab-review" type="button">
                         <i class="fa-solid fa-user-shield"></i> Human Review Queue
-                        <span class="badge bg-danger rounded-pill px-2 py-1 ms-1" id="pendingReviewsCount">0</span>
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link" id="tab-eval-btn" data-bs-toggle="tab" data-bs-target="#tab-eval" type="button">
-                        <i class="fa-solid fa-square-poll-vertical"></i> 10-Case Benchmark Evaluation
+                        <span class="badge bg-danger rounded-pill px-2 ms-1" id="pendingReviewsCount">0</span>
                     </button>
                 </li>
                 <li class="nav-item">
                     <button class="nav-link" id="tab-budgets-btn" data-bs-toggle="tab" data-bs-target="#tab-budgets" type="button">
-                        <i class="fa-solid fa-building-columns"></i> Budgets & Employees
+                        <i class="fa-solid fa-clock-rotate-left"></i> History, Budgets & Employees
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="tab-eval-btn" data-bs-toggle="tab" data-bs-target="#tab-eval" type="button">
+                        <i class="fa-solid fa-square-poll-vertical"></i> 10-Case Evaluation
                     </button>
                 </li>
                 <li class="nav-item">
                     <button class="nav-link" id="tab-log-btn" data-bs-toggle="tab" data-bs-target="#tab-log" type="button">
-                        <i class="fa-solid fa-clock-rotate-left"></i> Central Audit Trail
+                        <i class="fa-solid fa-network-wired"></i> Agent Audit Trail
                     </button>
                 </li>
                 <li class="nav-item">
@@ -435,52 +384,67 @@
             </ul>
         </nav>
 
-        <!-- Tab Panes -->
         <div class="tab-content">
 
-            <!-- TAB 1: AUDIT REQUEST -->
+            <!-- TAB 1: AUDIT TRAVEL REQUEST -->
             <div class="tab-pane fade show active" id="tab-audit" role="tabpanel">
                 <div class="row g-4">
-                    <!-- Left: Request Input Form -->
+                    <!-- Left: Request Form -->
                     <div class="col-lg-6">
                         <div class="glass-card">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="fw-bold mb-0 text-dark">
-                                    <i class="fa-solid fa-pen-to-square text-primary me-2"></i>Submit Travel Request
-                                </h5>
-                                <span class="badge bg-primary-subtle text-primary fw-semibold px-2 py-1">Natural Language</span>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold mb-0"><i class="fa-solid fa-pen-to-square text-primary me-2"></i>Submit Travel Request</h5>
+                                <span class="badge bg-indigo-subtle text-primary border border-primary-subtle fw-semibold">Conversational + 5 Agents</span>
                             </div>
-                            <p class="text-muted small">Enter an employee travel request in natural language. The system delegates parsing, policy retrieval, fare discovery, and budget mathematics across 5 specialized agents.</p>
+                            <p class="text-muted small mb-3">Ask in natural language. If employee identity, departure city, date, or purpose is missing, the agent will ask follow-up questions before searching fares.</p>
 
-                            <!-- Preset Quick-Fill Chips -->
-                            <div class="mb-3">
-                                <div class="small fw-bold text-uppercase text-muted mb-2" style="font-size:0.75rem;">1-Click Benchmark Scenarios:</div>
-                                <div class="d-flex flex-wrap gap-1">
-                                    <span class="preset-chip chip-approve" onclick="fillPreset(1)"><i class="fa-solid fa-circle-check text-success"></i> Case 1: DEL→BOM (Approve)</span>
-                                    <span class="preset-chip chip-modify" onclick="fillPreset(2)"><i class="fa-solid fa-arrows-rotate text-warning"></i> Case 2: DEL→BLR Biz (Modify)</span>
-                                    <span class="preset-chip chip-escalate" onclick="fillPreset(3)"><i class="fa-solid fa-triangle-exclamation text-danger"></i> Case 3: &lt;7d Notice (Escalate)</span>
-                                    <span class="preset-chip chip-approve" onclick="fillPreset(4)"><i class="fa-solid fa-circle-check text-success"></i> Case 4: Singapore Intl (Approve)</span>
-                                    <span class="preset-chip chip-modify" onclick="fillPreset(5)"><i class="fa-solid fa-arrows-rotate text-warning"></i> Case 5: Over ₹15k Cap (Modify)</span>
-                                    <span class="preset-chip chip-escalate" onclick="fillPreset(6)"><i class="fa-solid fa-triangle-exclamation text-danger"></i> Case 6: Vacation (Escalate)</span>
-                                    <span class="preset-chip chip-approve" onclick="fillPreset(7)"><i class="fa-solid fa-circle-check text-success"></i> Case 7: L6 Intl Biz (Approve)</span>
-                                    <span class="preset-chip chip-escalate" onclick="fillPreset(8)"><i class="fa-solid fa-triangle-exclamation text-danger"></i> Case 8: Budget Exceeded (Escalate)</span>
-                                    <span class="preset-chip chip-escalate" onclick="fillPreset(9)"><i class="fa-solid fa-triangle-exclamation text-danger"></i> Case 9: 4th Trip Q4 (Escalate)</span>
-                                    <span class="preset-chip chip-escalate" onclick="fillPreset(10)"><i class="fa-solid fa-triangle-exclamation text-danger"></i> Case 10: &gt;₹100k Fare (Escalate)</span>
+                            <!-- Acting Employee Context Bar -->
+                            <div class="p-3 bg-light rounded-3 border mb-3">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                                    <div class="flex-grow-1">
+                                        <label for="actingEmployeeSelect" class="form-label fw-bold small text-dark mb-1">
+                                            <i class="fa-solid fa-id-badge text-primary me-1"></i> Acting Employee Profile:
+                                        </label>
+                                        <select id="actingEmployeeSelect" class="form-select form-select-sm fw-semibold" onchange="updateActingEmpBadge()">
+                                            <option value="">Auto-detect from request (Ask if missing)</option>
+                                        </select>
+                                    </div>
+                                    <div id="actingEmpBadge" class="small text-muted text-end">
+                                        <span class="badge bg-secondary-subtle text-secondary">Agent will identify or ask</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Input Form -->
+                            <!-- Quick Scenarios -->
                             <div class="mb-3">
-                                <label for="requestInput" class="form-label fw-bold small text-dark">Travel Request Statement:</label>
-                                <textarea id="requestInput" class="form-control custom-textarea" rows="4" placeholder="e.g. I need to fly Delhi to Mumbai on 2 Dec 2026, returning 3 Dec 2026, for a client meeting. Economy class. Employee E101."></textarea>
+                                <div class="small fw-bold text-uppercase text-muted mb-2" style="font-size:0.72rem;">1-Click Scenarios &amp; Benchmark Cases:</div>
+                                <div class="d-flex flex-wrap gap-1">
+                                    <span class="preset-chip chip-clarify" onclick="fillClarifyDemo()"><i class="fa-solid fa-message"></i> Interactive Follow-Up Demo</span>
+                                    <span class="preset-chip chip-approve" onclick="fillPreset(1)"><i class="fa-solid fa-circle-check"></i> Case 1: DEL→BOM (Approve)</span>
+                                    <span class="preset-chip chip-modify" onclick="fillPreset(2)"><i class="fa-solid fa-arrows-rotate"></i> Case 2: DEL→BLR Biz (Modify)</span>
+                                    <span class="preset-chip chip-escalate" onclick="fillPreset(3)"><i class="fa-solid fa-triangle-exclamation"></i> Case 3: &lt;7d Notice (Escalate)</span>
+                                    <span class="preset-chip chip-approve" onclick="fillPreset(4)"><i class="fa-solid fa-circle-check"></i> Case 4: BLR→SIN (Approve)</span>
+                                    <span class="preset-chip chip-modify" onclick="fillPreset(5)"><i class="fa-solid fa-arrows-rotate"></i> Case 5: Over ₹15k Cap (Modify)</span>
+                                    <span class="preset-chip chip-escalate" onclick="fillPreset(6)"><i class="fa-solid fa-triangle-exclamation"></i> Case 6: Vacation (Escalate)</span>
+                                    <span class="preset-chip chip-approve" onclick="fillPreset(7)"><i class="fa-solid fa-circle-check"></i> Case 7: L6 Intl Biz (Approve)</span>
+                                    <span class="preset-chip chip-escalate" onclick="fillPreset(8)"><i class="fa-solid fa-triangle-exclamation"></i> Case 8: OPS Budget (Escalate)</span>
+                                    <span class="preset-chip chip-escalate" onclick="fillPreset(9)"><i class="fa-solid fa-triangle-exclamation"></i> Case 9: 4th Trip Q4 (Escalate)</span>
+                                    <span class="preset-chip chip-escalate" onclick="fillPreset(10)"><i class="fa-solid fa-triangle-exclamation"></i> Case 10: &gt;₹100k (Escalate)</span>
+                                </div>
                             </div>
 
-                            <!-- Controls -->
-                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-2">
+                            <!-- Input Box -->
+                            <div class="mb-3">
+                                <label for="requestInput" class="form-label fw-bold small text-dark">Travel Request Statement:</label>
+                                <textarea id="requestInput" class="form-control custom-textarea" rows="3" placeholder="e.g., Book a flight from Delhi to Mumbai on 2 Dec 2026 returning 3 Dec for client meeting. Economy. Employee E101."></textarea>
+                            </div>
+
+                            <!-- Action Controls -->
+                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-1">
                                 <div class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" id="useLlmToggle">
+                                    <input class="form-check-input" type="checkbox" id="useLlmToggle" checked>
                                     <label class="form-check-label small fw-semibold" for="useLlmToggle">
-                                        Gemini LLM Mode <span class="badge bg-light text-secondary border ms-1">Fallback Ready</span>
+                                        Gemini LLM Mode <span class="badge bg-success-subtle text-success border border-success-subtle ms-1" id="llmBadge">Active</span>
                                     </label>
                                 </div>
                                 <div class="d-flex gap-2">
@@ -491,82 +455,119 @@
                                 </div>
                             </div>
 
-                            <!-- Live Multi-Agent Processing Stepper -->
-                            <div id="agentStepper" class="agent-stepper mt-4">
-                                <div class="fw-bold small text-primary mb-2"><i class="fa-solid fa-spinner fa-spin me-2"></i>Agent Coordination Pipeline Active:</div>
-                                <div class="agent-step" id="step-parser"><i class="fa-solid fa-circle-notch fa-spin"></i> 1. Request Parser Agent: Extracting dates, route & employee context</div>
-                                <div class="agent-step" id="step-rag"><i class="fa-regular fa-circle"></i> 2. Policy Retrieval Agent: Multi-query RAG search over ChromaDB</div>
-                                <div class="agent-step" id="step-fare"><i class="fa-regular fa-circle"></i> 3. Fare Search Agent: Querying inventory & carrier contracted rates</div>
-                                <div class="agent-step" id="step-budget"><i class="fa-regular fa-circle"></i> 4. Budget Checker Agent: Fare cap math & department ledger headroom</div>
-                                <div class="agent-step" id="step-approval"><i class="fa-regular fa-circle"></i> 5. Approval Manager: Deterministic precedence evaluation & justification</div>
+                            <!-- Live Stepper -->
+                            <div id="agentStepper" class="agent-stepper">
+                                <div class="fw-bold small text-primary mb-2"><i class="fa-solid fa-spinner fa-spin me-2"></i>Semantic Kernel Multi-Agent Pipeline Active:</div>
+                                <div class="agent-step" id="step-parser"><i class="fa-regular fa-circle"></i> 1. Request Parser Agent: Extracting dates, route, purpose &amp; employee</div>
+                                <div class="agent-step" id="step-rag"><i class="fa-regular fa-circle"></i> 2. Policy Retrieval Agent: RAG clause lookup over ChromaDB</div>
+                                <div class="agent-step" id="step-fare"><i class="fa-regular fa-circle"></i> 3. Fare Search Agent: Querying flight inventory &amp; contracted rates</div>
+                                <div class="agent-step" id="step-budget"><i class="fa-regular fa-circle"></i> 4. Budget Checker Agent: Cap verification &amp; ledger check</div>
+                                <div class="agent-step" id="step-approval"><i class="fa-regular fa-circle"></i> 5. Approval Manager: Deterministic decision &amp; justification</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Right: Results Card -->
+                    <!-- Right: Follow-Up Clarification OR Final Result -->
                     <div class="col-lg-6">
-                        <!-- Placeholder State -->
+                        <!-- Initial Placeholder -->
                         <div id="auditResultPlaceholder" class="glass-card text-center py-5">
-                            <div class="p-4 bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                                <i class="fa-solid fa-file-shield fs-1 text-primary text-opacity-50"></i>
+                            <div class="p-4 bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 82px; height: 82px;">
+                                <i class="fa-solid fa-robot fs-1 text-primary"></i>
                             </div>
-                            <h5 class="fw-bold text-dark mb-1">Awaiting Travel Request</h5>
-                            <p class="text-muted small px-lg-4">Submit a natural language travel request or pick any of the 10 benchmark scenarios to observe collaborative multi-agent execution.</p>
+                            <h5 class="fw-bold mb-2">Ready to Audit Travel Requests</h5>
+                            <p class="text-muted small px-lg-4 mb-0">Try submitting a partial request like <code>"Book flight to Bengaluru tomorrow for sales demo"</code> to watch the agent ask clarifying follow-up questions before searching fares, or click any 1-click benchmark scenario.</p>
                         </div>
 
-                        <!-- Result Container -->
+                        <!-- Interactive Follow-Up Clarification Card -->
+                        <div id="clarificationCard" class="clarify-card d-none mb-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="p-2 bg-primary text-white rounded-3 fs-4 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                                    <i class="fa-solid fa-comments"></i>
+                                </div>
+                                <div>
+                                    <span class="badge bg-primary mb-1">Agent Follow-Up Required</span>
+                                    <h5 class="fw-bold mb-0 text-dark">Additional Details Needed Before Audit</h5>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-white rounded-3 border mb-3 small text-dark" id="clarifyMessageText"></div>
+
+                            <!-- Understood So Far Pills -->
+                            <div class="mb-3" id="understoodPartialBox"></div>
+
+                            <!-- Dynamic Missing Field Inputs -->
+                            <div id="followUpFieldsContainer" class="row g-3 mb-3"></div>
+
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="cancelClarification()">Cancel</button>
+                                <button class="btn btn-primary fw-bold px-4 shadow-sm" id="submitClarifyBtn" onclick="submitClarifications()">
+                                    <i class="fa-solid fa-paper-plane me-2"></i>Submit Details &amp; Run Full Audit
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Final Audit Result Container -->
                         <div id="auditResultContainer" class="d-none">
-                            <!-- Hero Decision Banner -->
                             <div id="heroDecisionBanner" class="decision-banner banner-approve">
                                 <div>
-                                    <div class="small text-uppercase fw-bold opacity-75" style="letter-spacing: 0.05em;">Final Auditor Verdict</div>
+                                    <div class="small text-uppercase fw-bold opacity-75" style="letter-spacing: 0.06em;">Final Auditor Verdict</div>
                                     <div class="display-6 fw-bold" id="resultDecisionTitle">APPROVE</div>
                                 </div>
                                 <div class="text-end">
                                     <div class="badge bg-white bg-opacity-25 fs-6 px-3 py-2 rounded-pill fw-bold" id="resultClausePill">TP-2.2</div>
-                                    <div class="small opacity-75 mt-1" id="resultElapsed">0.82s</div>
+                                    <div class="small opacity-85 mt-1" id="resultElapsed">0.82s</div>
                                 </div>
                             </div>
 
                             <div class="glass-card">
-                                <!-- Request Attributes Grid -->
+                                <!-- Parsed Employee & Itinerary Dossier -->
                                 <div class="row g-2 mb-3">
                                     <div class="col-sm-6">
-                                        <div class="p-3 bg-light rounded-3 border">
-                                            <div class="text-muted small fw-semibold">Request Identifier</div>
-                                            <div class="fw-bold text-dark fs-6" id="resultRequestId">-</div>
+                                        <div class="dossier-chip">
+                                            <div class="dossier-label">Employee &amp; Department</div>
+                                            <div class="dossier-val" id="resEmployee">-</div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <div class="p-3 bg-light rounded-3 border">
-                                            <div class="text-muted small fw-semibold">Primary Policy Clause</div>
-                                            <div class="fw-bold text-primary fs-6" id="resultPrimaryClause">-</div>
+                                        <div class="dossier-chip">
+                                            <div class="dossier-label">Route &amp; Dates</div>
+                                            <div class="dossier-val" id="resRouteDates">-</div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="p-3 bg-light rounded-3 border">
-                                            <div class="text-muted small fw-semibold">Secondary Breaches</div>
-                                            <div class="fw-bold text-secondary" id="resultSecondaryClauses">None</div>
+                                    <div class="col-sm-4">
+                                        <div class="dossier-chip">
+                                            <div class="dossier-label">Purpose &amp; Class</div>
+                                            <div class="dossier-val" id="resPurposeClass">-</div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="p-3 bg-light rounded-3 border">
-                                            <div class="text-muted small fw-semibold">Status Lifecycle</div>
-                                            <div class="fw-bold text-success" id="resultStatus">DECIDED</div>
+                                    <div class="col-sm-4">
+                                        <div class="dossier-chip">
+                                            <div class="dossier-label">Policy Cap / Budget Left</div>
+                                            <div class="dossier-val" id="resBudgetCap">-</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="dossier-chip">
+                                            <div class="dossier-label">Clause &amp; Status</div>
+                                            <div class="dossier-val"><span id="resultPrimaryClause" class="text-primary">-</span> · <span id="resultStatus" class="text-success small">-</span></div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Boarding Pass Ticket: Best Compliant Fare -->
+                                <!-- Request ID + Secondary clauses -->
+                                <div class="d-flex flex-wrap justify-content-between align-items-center small text-muted mb-3 px-1">
+                                    <div>Request ID: <code id="resultRequestId">-</code></div>
+                                    <div>Secondary Breaches: <strong id="resultSecondaryClauses">None</strong></div>
+                                </div>
+
+                                <!-- Boarding Pass Best Compliant Fare -->
                                 <div id="bestFareCard" class="ticket-card d-none">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="d-flex align-items-center gap-3">
-                                            <div class="ticket-airline-logo">
-                                                <i class="fa-solid fa-plane"></i>
-                                            </div>
+                                            <div class="ticket-airline-logo"><i class="fa-solid fa-plane"></i></div>
                                             <div>
                                                 <div class="fw-bold text-dark fs-5" id="fareAirline">AirIndia</div>
-                                                <div class="small text-muted" id="fareMeta">Contracted Carrier · 2.2 hrs flight</div>
+                                                <div class="small text-muted" id="fareMeta">Contracted Preferred Carrier · 2.2 hrs</div>
                                             </div>
                                         </div>
                                         <div class="text-end">
@@ -575,28 +576,45 @@
                                         </div>
                                     </div>
                                     <div class="small text-success fw-semibold">
-                                        <i class="fa-solid fa-circle-check me-1"></i> Lowest-priced fare satisfying route caps, department budget, and preferred carrier policy.
+                                        <i class="fa-solid fa-circle-check me-1"></i> Best compliant option satisfying route caps, department budget, and preferred carrier policy.
                                     </div>
                                 </div>
 
-                                <!-- Escalation Callout Banner -->
-                                <div id="routedToHumanBanner" class="alert alert-danger border-danger-subtle d-none mb-3 py-3 rounded-3 shadow-sm">
-                                    <div class="d-flex gap-3 align-items-center">
-                                        <i class="fa-solid fa-triangle-exclamation fs-3 text-danger"></i>
-                                        <div>
-                                            <h6 class="fw-bold text-danger mb-0">Manager Approval Required (HITL)</h6>
-                                            <div class="small text-danger text-opacity-90">This booking request triggered a policy exception and was automatically routed to the Human Review Queue as <code>PENDING</code>.</div>
+                                <!-- Escalation Notice -->
+                                <div id="routedToHumanBanner" class="alert alert-danger border-danger-subtle d-none mb-3 py-3 rounded-3">
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                                        <div class="d-flex gap-3 align-items-center">
+                                            <i class="fa-solid fa-triangle-exclamation fs-3 text-danger"></i>
+                                            <div>
+                                                <h6 class="fw-bold text-danger mb-0">Manager Approval Required (HITL)</h6>
+                                                <div class="small">Routed to Human Review Queue with full itinerary, fare comparison &amp; employee budget context.</div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-sm btn-danger fw-bold" onclick="goToReviewTab()">Review Queue <i class="fa-solid fa-arrow-right ms-1"></i></button>
+                                    </div>
+                                </div>
+
+                                <!-- Justification -->
+                                <div class="mb-3">
+                                    <label class="small fw-bold text-uppercase text-muted mb-1">Auditor Justification:</label>
+                                    <div class="p-3 bg-light rounded-3 border text-dark fw-medium small" id="resultJustification"></div>
+                                </div>
+
+                                <!-- All Searched Airlines Accordion -->
+                                <div class="accordion mb-3" id="faresAccordion">
+                                    <div class="accordion-item border rounded-3 overflow-hidden">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed py-2 px-3 bg-light fw-bold small text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAvailableFares">
+                                                <i class="fa-solid fa-plane-circle-check text-success me-2"></i> Searched Flight Options (<span id="availableFaresCount">0</span> fares found)
+                                            </button>
+                                        </h2>
+                                        <div id="collapseAvailableFares" class="accordion-collapse collapse">
+                                            <div class="accordion-body p-2" id="availableFaresList"></div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Justification Card -->
-                                <div class="mb-4">
-                                    <label class="small fw-bold text-uppercase text-muted mb-2">Auditor Justification:</label>
-                                    <div class="p-3 bg-light rounded-3 border text-dark fw-medium" id="resultJustification"></div>
-                                </div>
-
-                                <!-- Accordion: Agent Audit Trail Timeline -->
+                                <!-- Inter-Agent Audit Trail -->
                                 <div class="accordion" id="auditTrailAccordion">
                                     <div class="accordion-item border rounded-3 overflow-hidden">
                                         <h2 class="accordion-header">
@@ -620,159 +638,70 @@
             <!-- TAB 2: HUMAN REVIEW QUEUE -->
             <div class="tab-pane fade" id="tab-review" role="tabpanel">
                 <div class="glass-card">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
                         <div>
-                            <h5 class="fw-bold mb-1 text-dark">
-                                <i class="fa-solid fa-user-shield text-warning me-2"></i>Manager Approval Loop (HITL)
-                            </h5>
-                            <p class="text-muted small mb-0">Escalated travel requests awaiting supervisor intervention. Submitting an approval automatically deducts the departmental budget and updates trip history.</p>
+                            <h5 class="fw-bold mb-1 text-dark"><i class="fa-solid fa-user-shield text-warning me-2"></i>Manager Approval Loop (HITL Review Queue)</h5>
+                            <p class="text-muted small mb-0">Inspect full employee identity, trip route, policy breach, budget headroom, and flight fares before issuing a verdict. Approvals update trip history &amp; deduct department budget automatically.</p>
                         </div>
                         <button class="btn btn-outline-primary btn-sm px-3 fw-semibold shadow-sm" onclick="loadReviews()">
                             <i class="fa-solid fa-rotate me-1"></i> Refresh Queue
                         </button>
                     </div>
-
-                    <!-- Pending Queue Cards -->
                     <div id="pendingReviewList">
-                        <div class="text-center py-5 text-muted">
-                            <i class="fa-solid fa-spinner fa-spin fs-4 mb-2"></i>
-                            <div>Loading pending review items...</div>
-                        </div>
+                        <div class="text-center py-5 text-muted"><i class="fa-solid fa-spinner fa-spin fs-4 mb-2"></i><div>Loading review dossiers...</div></div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB 3: 10-CASE BENCHMARK EVALUATION -->
-            <div class="tab-pane fade" id="tab-eval" role="tabpanel">
-                <!-- Evaluation Summary KPIs -->
-                <div class="row g-3 mb-4">
-                    <div class="col-md-3">
-                        <div class="kpi-card kpi-success">
-                            <div class="kpi-val text-success" id="evalDecAcc">100%</div>
-                            <div class="kpi-lbl">Decision Accuracy (10/10)</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="kpi-card kpi-info">
-                            <div class="kpi-val text-primary" id="evalClsAcc">100%</div>
-                            <div class="kpi-lbl">Primary Clause Match</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="kpi-card kpi-warning">
-                            <div class="kpi-val text-warning" id="evalFareAcc">100%</div>
-                            <div class="kpi-lbl">Compliant Fare Accuracy</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="kpi-card">
-                            <div class="kpi-val text-secondary" id="evalAvgLat">1.17s</div>
-                            <div class="kpi-lbl">Average Latency</div>
-                        </div>
-                    </div>
-                </div>
-
+            <!-- TAB 3: HISTORY, BUDGETS & EMPLOYEES -->
+            <div class="tab-pane fade" id="tab-budgets" role="tabpanel">
+                <!-- Complete Audit & Booking Request History Ledger -->
                 <div class="glass-card">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
                         <div>
-                            <h5 class="fw-bold mb-1 text-dark">
-                                <i class="fa-solid fa-vial-circle-check text-success me-2"></i>Ground-Truth Benchmark Matrix
-                            </h5>
-                            <p class="text-muted small mb-0">Empirical validation across all 10 ground-truth travel requests probing class caps, notice periods, and precedence rules.</p>
+                            <h5 class="fw-bold mb-1 text-dark"><i class="fa-solid fa-receipt text-primary me-2"></i>Booking &amp; Audit Request History</h5>
+                            <p class="text-muted small mb-0">Complete audit ledger showing who requested each trip, route &amp; dates, fare amount, policy clause, AI verdict, and final human manager outcome.</p>
                         </div>
-                        <button class="btn btn-success px-4 fw-bold shadow-sm" id="runEvalBtn" onclick="runEvaluation()">
-                            <i class="fa-solid fa-play me-2"></i> Run Full Benchmark
+                        <button class="btn btn-sm btn-outline-primary fw-semibold" onclick="loadBudgetsAndEmployees()">
+                            <i class="fa-solid fa-rotate me-1"></i> Refresh
                         </button>
                     </div>
-
-                    <!-- Per-Case Table -->
-                    <div class="table-responsive mb-4">
-                        <table class="table table-hover align-middle small">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-sm small align-middle">
                             <thead class="table-light">
                                 <tr>
-                                    <th class="text-center" style="width: 60px;">Case</th>
-                                    <th>Expected Decision & Clause</th>
-                                    <th>Actual System Result</th>
-                                    <th class="text-center" style="width: 100px;">Decision</th>
-                                    <th class="text-center" style="width: 100px;">Clause</th>
-                                    <th class="text-center" style="width: 100px;">Fare</th>
-                                    <th class="text-end" style="width: 90px;">Latency</th>
+                                    <th>Request ID</th>
+                                    <th>Employee</th>
+                                    <th>Itinerary &amp; Date</th>
+                                    <th>Purpose / Class</th>
+                                    <th>Fare &amp; Airline</th>
+                                    <th>Decision &amp; Clause</th>
+                                    <th>Final Status &amp; Reviewer</th>
                                 </tr>
                             </thead>
-                            <tbody id="evalTableBody">
-                                <!-- Populated dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Confusion Matrix Heatmap -->
-                    <h6 class="fw-bold text-dark mb-2">Confusion Matrix (Expected vs Actual):</h6>
-                    <div class="table-responsive" style="max-width: 520px;">
-                        <table class="table table-bordered text-center align-middle small shadow-sm">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Expected \ Actual</th>
-                                    <th class="text-success fw-bold">APPROVE</th>
-                                    <th class="text-warning fw-bold">MODIFY</th>
-                                    <th class="text-danger fw-bold">ESCALATE</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="fw-bold table-light text-start">APPROVE</td>
-                                    <td class="table-success fw-bold text-success fs-6" id="cm_app_app">3</td>
-                                    <td id="cm_app_mod">0</td>
-                                    <td id="cm_app_esc">0</td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold table-light text-start">MODIFY</td>
-                                    <td id="cm_mod_app">0</td>
-                                    <td class="table-warning fw-bold text-warning fs-6" id="cm_mod_mod">2</td>
-                                    <td id="cm_mod_esc">0</td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold table-light text-start">ESCALATE</td>
-                                    <td id="cm_esc_app">0</td>
-                                    <td id="cm_esc_mod">0</td>
-                                    <td class="table-danger fw-bold text-danger fs-6" id="cm_esc_esc">5</td>
-                                </tr>
-                            </tbody>
+                            <tbody id="bookingHistoryTableBody"></tbody>
                         </table>
                     </div>
                 </div>
-            </div>
 
-            <!-- TAB 4: BUDGETS & EMPLOYEES -->
-            <div class="tab-pane fade" id="tab-budgets" role="tabpanel">
                 <div class="row g-4">
-                    <!-- Department Budgets -->
                     <div class="col-lg-5">
                         <div class="glass-card h-100">
-                            <h5 class="fw-bold mb-3 text-dark">
-                                <i class="fa-solid fa-wallet text-info me-2"></i>Department Travel Ledgers
-                            </h5>
-                            <p class="text-muted small">Real-time balances stored in SQLite <code>dept_budget_ledger</code>. Deductions occur immediately upon approved bookings.</p>
-                            <div id="budgetCardsContainer">
-                                <div class="text-muted small">Loading budgets...</div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-wallet text-info me-2"></i>Department Travel Ledgers</h5>
+                                <button class="btn btn-sm btn-outline-danger" onclick="resetSeedDatabase()"><i class="fa-solid fa-arrow-rotate-left me-1"></i> Reset Seed</button>
                             </div>
+                            <p class="text-muted small">Real-time balances stored in SQLite <code>dept_budget_ledger</code>. Deductions occur upon automated approval or manager HITL exception approval.</p>
+                            <div id="budgetCardsContainer"><div class="text-muted small">Loading budgets...</div></div>
                         </div>
                     </div>
-                    <!-- Employees Table -->
                     <div class="col-lg-7">
                         <div class="glass-card h-100">
-                            <h5 class="fw-bold mb-3 text-dark">
-                                <i class="fa-solid fa-users text-primary me-2"></i>Corporate Employee Directory
-                            </h5>
+                            <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-users text-primary me-2"></i>Corporate Employee Directory</h5>
                             <div class="table-responsive">
                                 <table class="table table-hover table-sm small align-middle">
                                     <thead class="table-light">
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Grade</th>
-                                            <th>Department</th>
-                                            <th>Email</th>
-                                        </tr>
+                                        <tr><th>ID</th><th>Name</th><th>Grade</th><th>Department</th><th>Email</th></tr>
                                     </thead>
                                     <tbody id="employeesTableBody"></tbody>
                                 </table>
@@ -781,24 +710,12 @@
                     </div>
                 </div>
 
-                <!-- Historical Trip Ledger -->
                 <div class="glass-card mt-4">
-                    <h5 class="fw-bold mb-3 text-dark">
-                        <i class="fa-solid fa-clock-rotate-left text-secondary me-2"></i>Trip History Memory Store
-                    </h5>
+                    <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-plane-arrival text-secondary me-2"></i>SQLite Trip Frequency Memory (<code>trip_history</code>)</h5>
                     <div class="table-responsive">
                         <table class="table table-hover table-sm small align-middle">
                             <thead class="table-light">
-                                <tr>
-                                    <th>Trip ID</th>
-                                    <th>Employee</th>
-                                    <th>Route</th>
-                                    <th>Departure Date</th>
-                                    <th>Fare</th>
-                                    <th>Status</th>
-                                    <th>Policy Clause</th>
-                                    <th>Decided By</th>
-                                </tr>
+                                <tr><th>Trip ID</th><th>Employee</th><th>Route</th><th>Departure</th><th>Fare (INR)</th><th>Status</th><th>Clause</th><th>Decided By</th></tr>
                             </thead>
                             <tbody id="tripHistoryTableBody"></tbody>
                         </table>
@@ -806,23 +723,67 @@
                 </div>
             </div>
 
-            <!-- TAB 5: CENTRAL AUDIT TRAIL -->
+            <!-- TAB 4: BENCHMARK EVALUATION -->
+            <div class="tab-pane fade" id="tab-eval" role="tabpanel">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3"><div class="kpi-card kpi-success"><div class="kpi-val text-success" id="evalDecAcc">100%</div><div class="kpi-lbl">Decision Accuracy (10/10)</div></div></div>
+                    <div class="col-md-3"><div class="kpi-card kpi-info"><div class="kpi-val text-primary" id="evalClsAcc">100%</div><div class="kpi-lbl">Primary Clause Match</div></div></div>
+                    <div class="col-md-3"><div class="kpi-card kpi-warning"><div class="kpi-val text-warning" id="evalFareAcc">100%</div><div class="kpi-lbl">Compliant Fare Accuracy</div></div></div>
+                    <div class="col-md-3"><div class="kpi-card"><div class="kpi-val text-secondary" id="evalAvgLat">1.17s</div><div class="kpi-lbl">Average Latency</div></div></div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                        <div>
+                            <h5 class="fw-bold mb-1 text-dark"><i class="fa-solid fa-vial-circle-check text-success me-2"></i>Ground-Truth 10-Case Evaluation Matrix</h5>
+                            <p class="text-muted small mb-0">Runs isolated <code>:memory:</code> stores per case so live user requests &amp; review queue are never overwritten.</p>
+                        </div>
+                        <button class="btn btn-success px-4 fw-bold shadow-sm" id="runEvalBtn" onclick="runEvaluation()">
+                            <i class="fa-solid fa-play me-2"></i> Run Full Benchmark
+                        </button>
+                    </div>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-hover align-middle small">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-center" style="width:60px;">Case</th>
+                                    <th>Expected Decision &amp; Clause</th>
+                                    <th>Actual System Result</th>
+                                    <th class="text-center">Decision</th>
+                                    <th class="text-center">Clause</th>
+                                    <th class="text-center">Fare</th>
+                                    <th class="text-end">Latency</th>
+                                </tr>
+                            </thead>
+                            <tbody id="evalTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <h6 class="fw-bold text-dark mb-2">Confusion Matrix (Expected vs Actual):</h6>
+                    <div class="table-responsive" style="max-width: 520px;">
+                        <table class="table table-bordered text-center align-middle small shadow-sm">
+                            <thead class="table-light">
+                                <tr><th>Expected \ Actual</th><th class="text-success">APPROVE</th><th class="text-warning">MODIFY</th><th class="text-danger">ESCALATE</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="fw-bold table-light text-start">APPROVE</td><td class="table-success fw-bold text-success fs-6" id="cm_app_app">3</td><td id="cm_app_mod">0</td><td id="cm_app_esc">0</td></tr>
+                                <tr><td class="fw-bold table-light text-start">MODIFY</td><td id="cm_mod_app">0</td><td class="table-warning fw-bold text-warning fs-6" id="cm_mod_mod">2</td><td id="cm_mod_esc">0</td></tr>
+                                <tr><td class="fw-bold table-light text-start">ESCALATE</td><td id="cm_esc_app">0</td><td id="cm_esc_mod">0</td><td class="table-danger fw-bold text-danger fs-6" id="cm_esc_esc">5</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: AUDIT TRAIL -->
             <div class="tab-pane fade" id="tab-log" role="tabpanel">
                 <div class="glass-card">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="fw-bold mb-0 text-dark">
-                            <i class="fa-solid fa-list-check text-secondary me-2"></i>Central Audit Trail Ledger
-                        </h5>
-                        <button class="btn btn-sm btn-outline-secondary px-3" onclick="loadAuditLogs()">
-                            <i class="fa-solid fa-rotate me-1"></i> Refresh Logs
-                        </button>
+                        <h5 class="fw-bold mb-0"><i class="fa-solid fa-list-check text-secondary me-2"></i>Central Multi-Agent Audit Log</h5>
+                        <button class="btn btn-sm btn-outline-secondary px-3" onclick="loadAuditLogs()"><i class="fa-solid fa-rotate me-1"></i> Refresh Logs</button>
                     </div>
-
-                    <!-- Filter Controls -->
                     <div class="row g-2 mb-3">
-                        <div class="col-md-5">
-                            <input type="text" id="logFilterReq" class="form-control form-control-sm" placeholder="Filter by Request ID (e.g. REQ-...)">
-                        </div>
+                        <div class="col-md-5"><input type="text" id="logFilterReq" class="form-control form-control-sm" placeholder="Filter by Request ID (e.g. REQ-...)"></div>
                         <div class="col-md-4">
                             <select id="logFilterAgent" class="form-select form-select-sm">
                                 <option value="">All Agents</option>
@@ -835,21 +796,11 @@
                                 <option value="memory">Shared Memory</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-sm btn-primary w-100 fw-semibold" onclick="loadAuditLogs()">Filter</button>
-                        </div>
+                        <div class="col-md-3"><button class="btn btn-sm btn-primary w-100 fw-semibold" onclick="loadAuditLogs()">Filter</button></div>
                     </div>
-
                     <div class="table-responsive" style="max-height: 520px; overflow-y: auto;">
                         <table class="table table-sm table-striped small align-middle">
-                            <thead class="table-light sticky-top">
-                                <tr>
-                                    <th style="width: 170px;">Timestamp</th>
-                                    <th style="width: 150px;">Request ID</th>
-                                    <th style="width: 140px;">Agent</th>
-                                    <th>Action & Verified Payload</th>
-                                </tr>
-                            </thead>
+                            <thead class="table-light sticky-top"><tr><th>Timestamp</th><th>Request ID</th><th>Agent</th><th>Action &amp; Verified Payload</th></tr></thead>
                             <tbody id="auditLogTableBody"></tbody>
                         </table>
                     </div>
@@ -859,109 +810,100 @@
             <!-- TAB 6: POLICY & PRECEDENCE -->
             <div class="tab-pane fade" id="tab-policy" role="tabpanel">
                 <div class="glass-card mb-4">
-                    <h5 class="fw-bold mb-3 text-dark">
-                        <i class="fa-solid fa-ranking-star text-warning me-2"></i>Deterministic Clause Precedence Hierarchy
-                    </h5>
-                    <p class="text-muted small">When multiple policy rules are breached simultaneously, the primary scored clause is resolved deterministically via strict priority ranking:</p>
-                    
+                    <h5 class="fw-bold mb-2"><i class="fa-solid fa-ranking-star text-warning me-2"></i>Deterministic Clause Precedence Hierarchy</h5>
+                    <p class="text-muted small">When multiple rules trigger on a request, primary clause assignment obeys strict precedence:</p>
                     <div class="p-3 bg-light rounded-3 border mb-4 d-flex flex-wrap align-items-center gap-2">
-                        <span class="precedence-flow-pill border-danger text-danger"><i class="fa-solid fa-1"></i> TP-6.1 (Purpose)</span>
+                        <span class="precedence-flow-pill border-danger text-danger">1. TP-6.1 (Purpose)</span>
                         <i class="fa-solid fa-chevron-right text-muted small"></i>
-                        <span class="precedence-flow-pill border-danger text-danger"><i class="fa-solid fa-2"></i> TP-1.1 (Advance Notice)</span>
+                        <span class="precedence-flow-pill border-danger text-danger">2. TP-1.1 (Advance Notice)</span>
                         <i class="fa-solid fa-chevron-right text-muted small"></i>
-                        <span class="precedence-flow-pill border-danger text-danger"><i class="fa-solid fa-3"></i> TP-7.1 (Trip Frequency)</span>
+                        <span class="precedence-flow-pill border-danger text-danger">3. TP-7.1 (Trip Frequency)</span>
                         <i class="fa-solid fa-chevron-right text-muted small"></i>
-                        <span class="precedence-flow-pill border-danger text-danger"><i class="fa-solid fa-4"></i> TP-9.1 (High Value &gt;₹100k)</span>
+                        <span class="precedence-flow-pill border-danger text-danger">4. TP-9.1 (High Value &gt;₹100k)</span>
                         <i class="fa-solid fa-chevron-right text-muted small"></i>
-                        <span class="precedence-flow-pill border-warning text-warning"><i class="fa-solid fa-5"></i> TP-4.1 (Dept Budget)</span>
+                        <span class="precedence-flow-pill border-warning text-warning">5. TP-4.1 (Dept Budget)</span>
                         <i class="fa-solid fa-chevron-right text-muted small"></i>
-                        <span class="precedence-flow-pill border-primary text-primary"><i class="fa-solid fa-6"></i> TP-2.1 (Travel Class)</span>
+                        <span class="precedence-flow-pill border-primary text-primary">6. TP-2.1 (Travel Class)</span>
                         <i class="fa-solid fa-chevron-right text-muted small"></i>
-                        <span class="precedence-flow-pill border-primary text-primary"><i class="fa-solid fa-7"></i> TP-2.2 (Fare Caps)</span>
+                        <span class="precedence-flow-pill border-primary text-primary">7. TP-2.2 (Fare Caps)</span>
                     </div>
 
-                    <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-book-bookmark text-primary me-2"></i>Travel Policy Knowledge Base (data/policy/travel_policy.md)</h5>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="p-3 border rounded-3 bg-white h-100 shadow-sm">
-                                <h6 class="fw-bold text-primary mb-1">TP-1.1 Advance Booking</h6>
-                                <p class="small text-muted mb-0">Domestic travel must be booked at least 7 days before departure. International travel must be booked at least 14 days before departure. Shorter notice is an exception requiring manager approval.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 border rounded-3 bg-white h-100 shadow-sm">
-                                <h6 class="fw-bold text-primary mb-1">TP-2.1 Travel Class</h6>
-                                <p class="small text-muted mb-0">Economy class is mandatory by default. Premium Economy or Business is permitted only if flight duration is ≥ 6 hours AND employee grade is L5 or above. Otherwise changed to Economy.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 border rounded-3 bg-white h-100 shadow-sm">
-                                <h6 class="fw-bold text-primary mb-1">TP-2.2 Fare Caps (Round-Trip)</h6>
-                                <p class="small text-muted mb-0">Economy domestic cap: INR 15,000. Economy international cap: INR 90,000. Business international cap: INR 120,000. Fares exceeding cap must be replaced by compliant fare.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 border rounded-3 bg-white h-100 shadow-sm">
-                                <h6 class="fw-bold text-primary mb-1">TP-4.1 Department Budget</h6>
-                                <p class="small text-muted mb-0">Selected fare must not exceed the remaining travel budget of employee's department. If no compliant fare fits remaining budget, request requires manager approval.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 border rounded-3 bg-white h-100 shadow-sm">
-                                <h6 class="fw-bold text-primary mb-1">TP-5.1 Preferred Carriers</h6>
-                                <p class="small text-muted mb-0">Contracted airlines (AirIndia, IndiGo, Vistara-AI) are preferred. Non-contracted airline permitted only if cheaper by at least 10% or if no contracted option exists.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 border rounded-3 bg-white h-100 shadow-sm">
-                                <h6 class="fw-bold text-primary mb-1">TP-6.1 Business Purpose</h6>
-                                <p class="small text-muted mb-0">Travel must be for a verified business purpose (client meeting, conference, training, project delivery, audit). Personal or leisure purposes require manager review.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 border rounded-3 bg-white h-100 shadow-sm">
-                                <h6 class="fw-bold text-primary mb-1">TP-7.1 Trip Frequency</h6>
-                                <p class="small text-muted mb-0">An employee may take at most 3 trips per calendar quarter. A 4th or later trip in the same quarter requires manager approval.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 border rounded-3 bg-white h-100 shadow-sm">
-                                <h6 class="fw-bold text-primary mb-1">TP-9.1 High Value Approval</h6>
-                                <p class="small text-muted mb-0">Any single travel request whose selected fare exceeds INR 100,000 requires manager approval (takes precedence over TP-4.1 and TP-2.2).</p>
-                            </div>
-                        </div>
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-book-bookmark text-primary me-2"></i>Corporate Travel Policy Knowledge Base (RAG Chunks)</h5>
+                    <div class="row g-3" id="policyClausesCards">
+                        <div class="col-md-6"><div class="p-3 border rounded-3 bg-white h-100 shadow-sm"><h6 class="fw-bold text-primary mb-1">TP-1.1 Advance Booking</h6><p class="small text-muted mb-0">Domestic travel must be booked ≥7 days before departure. International travel requires ≥14 days. Shorter notice escalates to manager approval.</p></div></div>
+                        <div class="col-md-6"><div class="p-3 border rounded-3 bg-white h-100 shadow-sm"><h6 class="fw-bold text-primary mb-1">TP-2.1 Travel Class</h6><p class="small text-muted mb-0">Economy is mandatory by default. Business/Premium Economy permitted only if flight ≥6 hours AND grade ≥L5. Otherwise modified to Economy.</p></div></div>
+                        <div class="col-md-6"><div class="p-3 border rounded-3 bg-white h-100 shadow-sm"><h6 class="fw-bold text-primary mb-1">TP-2.2 Fare Caps (Round-Trip)</h6><p class="small text-muted mb-0">Economy domestic cap: INR 15,000. Economy international cap: INR 90,000. Business international cap: INR 120,000.</p></div></div>
+                        <div class="col-md-6"><div class="p-3 border rounded-3 bg-white h-100 shadow-sm"><h6 class="fw-bold text-primary mb-1">TP-4.1 Department Budget</h6><p class="small text-muted mb-0">Selected fare cannot exceed remaining department budget. If no compliant fare fits budget, manager approval is required.</p></div></div>
+                        <div class="col-md-6"><div class="p-3 border rounded-3 bg-white h-100 shadow-sm"><h6 class="fw-bold text-primary mb-1">TP-5.1 Preferred Carriers</h6><p class="small text-muted mb-0">Contracted airlines (AirIndia, IndiGo, Vistara-AI) are preferred. Non-contracted allowed only if ≥10% cheaper than best contracted option.</p></div></div>
+                        <div class="col-md-6"><div class="p-3 border rounded-3 bg-white h-100 shadow-sm"><h6 class="fw-bold text-primary mb-1">TP-6.1 Business Purpose</h6><p class="small text-muted mb-0">Travel must be for business purposes (client meeting, conference, training, project delivery, audit). Personal/leisure trips require manager review.</p></div></div>
+                        <div class="col-md-6"><div class="p-3 border rounded-3 bg-white h-100 shadow-sm"><h6 class="fw-bold text-primary mb-1">TP-7.1 Trip Frequency</h6><p class="small text-muted mb-0">Max 3 approved trips per calendar quarter. A 4th or later trip in the same quarter escalates to manager approval.</p></div></div>
+                        <div class="col-md-6"><div class="p-3 border rounded-3 bg-white h-100 shadow-sm"><h6 class="fw-bold text-primary mb-1">TP-9.1 High Value Approval</h6><p class="small text-muted mb-0">Any single trip exceeding INR 100,000 requires manager approval (outranks TP-4.1 and TP-2.2).</p></div></div>
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
-    <!-- Bootstrap 5 Bundle JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Client-Side Application Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const PRESETS = {
-            1: "I need to fly Delhi to Mumbai on 2 Dec 2026, returning 3 Dec 2026, for a client meeting. Economy class. Employee E101.",
-            2: "Book me a Business class flight from Delhi to Bangalore, departing 27 Nov 2026, returning 28 Nov. Client meeting. Employee E101.",
-            3: "Urgent travel needed. Delhi to Goa on 15 Nov 2026, returning 16 Nov. Client meeting. Employee E101. Economy around INR 7500.",
-            4: "Fly Bangalore to Singapore departing 12 Dec 2026, returning 15 Dec 2026. Training. Employee E102. Economy.",
-            5: "Delhi to Hyderabad on 1 Dec 2026, return 2 Dec 2026. Client meeting. Employee E102. Economy class, fare around INR 18,500.",
-            6: "Delhi to Goa on 5 Dec 2026, return 8 Dec 2026. Family vacation. Economy. Employee E101.",
+            1: "I need to fly Delhi to Mumbai on 2 Dec 2026, returning 3 Dec 2026, for a client meeting. Economy class please. Employee E101.",
+            2: "Book me a Business class flight from Delhi to Bangalore, departing 27 Nov 2026, return 28 Nov. Purpose: client meeting. I am employee E101.",
+            3: "Urgent travel needed. Delhi to Goa on 15 Nov 2026, returning 16 Nov. Client meeting. Economy. Employee E101.",
+            4: "Please book Bangalore to Singapore, departing 12 Dec 2026, returning 15 Dec 2026. Conference attendance. Economy class. Employee E102.",
+            5: "Need Delhi to Hyderabad flight on 1 Dec 2026, return 2 Dec 2026. For training. Economy, fare approximately INR 22,000. Employee E102.",
+            6: "I want to travel from Delhi to Goa on 5 Dec 2026, returning 8 Dec 2026. Purpose: family vacation. Economy class. Employee E101.",
             7: "Business class travel from Delhi to London, departing 7 Dec 2026, returning 12 Dec 2026. Client meeting. Employee E103.",
             8: "Mumbai to Delhi on 30 Nov 2026, return 1 Dec 2026. Project delivery work. Economy. Employee E104.",
             9: "Delhi to Kolkata, departing 3 Dec 2026, return 4 Dec 2026. Purpose: audit. Economy at INR 8000. Employee E105.",
             10: "Book Business class Delhi to New York JFK, departing 10 Dec 2026, returning 17 Dec 2026. Conference. Employee E103. Fare around INR 145,000."
         };
 
+        let employeesCache = [];
+        let budgetsMap = {};
+        let pendingClarificationContext = null;
+
+        function showToast(msg, type = "primary") {
+            const c = document.getElementById("toastContainer");
+            const el = document.createElement("div");
+            el.className = `toast align-items-center text-bg-${type} border-0 show shadow-lg mb-2`;
+            el.innerHTML = `<div class="d-flex"><div class="toast-body fw-semibold">${msg}</div><button type="button" class="btn-close btn-close-white me-2 m-auto" onclick="this.closest('.toast').remove()"></button></div>`;
+            c.appendChild(el);
+            setTimeout(() => el.remove(), 5000);
+        }
+
+        function fillClarifyDemo() {
+            document.getElementById("actingEmployeeSelect").value = "";
+            updateActingEmpBadge();
+            document.getElementById("requestInput").value = "Book flight to Bengaluru tomorrow for sales demo";
+            document.getElementById("requestInput").focus();
+        }
+
         function fillPreset(id) {
+            document.getElementById("actingEmployeeSelect").value = "";
+            updateActingEmpBadge();
             document.getElementById("requestInput").value = PRESETS[id];
             document.getElementById("requestInput").focus();
         }
 
         function clearRequestInput() {
             document.getElementById("requestInput").value = "";
+            cancelClarification();
+        }
+
+        function cancelClarification() {
+            pendingClarificationContext = null;
+            document.getElementById("clarificationCard").classList.add("d-none");
+            document.getElementById("agentStepper").style.display = "none";
+        }
+
+        function goToReviewTab() {
+            const tabBtn = document.getElementById("tab-review-btn");
+            bootstrap.Tab.getOrCreateInstance(tabBtn).show();
+            loadReviews();
         }
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -977,18 +919,47 @@
                 const res = await fetch("/api/stats");
                 const data = await res.json();
                 if (data.today) document.getElementById("todayDisplay").innerText = data.today;
+                if (data.model) document.getElementById("activeModelDisplay").innerText = data.model;
                 if (data.pending_reviews_count !== undefined) {
                     document.getElementById("pendingReviewsCount").innerText = data.pending_reviews_count;
+                }
+                const llmToggle = document.getElementById("useLlmToggle");
+                const llmBadge = document.getElementById("llmBadge");
+                if (!data.llm_enabled) {
+                    llmToggle.checked = false;
+                    llmBadge.className = "badge bg-warning-subtle text-warning border ms-1";
+                    llmBadge.innerText = "Fallback Mode (No Key)";
+                }
+                if (data.budgets) {
+                    data.budgets.forEach(b => budgetsMap[b.dept] = b.remaining_inr);
+                    updateActingEmpBadge();
                 }
             } catch (err) {
                 console.error("Error loading stats:", err);
             }
         }
 
-        async function submitAudit() {
-            const text = document.getElementById("requestInput").value.trim();
+        function updateActingEmpBadge() {
+            const sel = document.getElementById("actingEmployeeSelect").value;
+            const badge = document.getElementById("actingEmpBadge");
+            if (!sel) {
+                badge.innerHTML = `<span class="badge bg-secondary-subtle text-secondary">Auto-detect / Ask if omitted</span>`;
+                return;
+            }
+            const emp = employeesCache.find(e => e.employee_id === sel);
+            if (emp) {
+                const rem = budgetsMap[emp.department] !== undefined ? `₹${budgetsMap[emp.department].toLocaleString()}` : "-";
+                badge.innerHTML = `<span class="badge bg-primary-subtle text-primary">${emp.department} · ${emp.grade}</span> <span class="badge bg-success-subtle text-success">Dept Left: ${rem}</span>`;
+            }
+        }
+
+        async function submitAudit(clarificationsObj = null, existingReqId = null) {
+            const text = (clarificationsObj && pendingClarificationContext)
+                ? pendingClarificationContext.rawText
+                : document.getElementById("requestInput").value.trim();
+
             if (!text) {
-                alert("Please enter a travel request or choose a quick-fill scenario.");
+                showToast("Please enter a travel request or pick a scenario.", "warning");
                 return;
             }
 
@@ -996,109 +967,207 @@
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Auditing...';
 
-            // Show and animate agent pipeline stepper
             const stepper = document.getElementById("agentStepper");
             stepper.style.display = "block";
             resetStepper();
             animateStep("step-parser");
-
-            setTimeout(() => animateStep("step-rag"), 300);
-            setTimeout(() => animateStep("step-fare"), 600);
-            setTimeout(() => animateStep("step-budget"), 900);
-            setTimeout(() => animateStep("step-approval"), 1200);
+            if (clarificationsObj) {
+                setTimeout(() => animateStep("step-rag"), 250);
+                setTimeout(() => animateStep("step-fare"), 500);
+                setTimeout(() => animateStep("step-budget"), 750);
+                setTimeout(() => animateStep("step-approval"), 1000);
+            }
 
             const useLlm = document.getElementById("useLlmToggle").checked;
+            const actingEmp = document.getElementById("actingEmployeeSelect").value || null;
 
             try {
                 const res = await fetch("/api/audit", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ request_text: text, use_llm: useLlm })
+                    body: JSON.stringify({
+                        request_text: text,
+                        employee_id: actingEmp,
+                        clarifications: clarificationsObj,
+                        request_id: existingReqId,
+                        allow_clarification: !clarificationsObj,
+                        use_llm: useLlm
+                    })
                 });
                 const data = await res.json();
-
                 if (data.error) {
-                    alert("Error: " + data.error);
+                    showToast("Error: " + data.error, "danger");
                     return;
                 }
 
+                // Handle Interactive Follow-Up Questions
+                if (data.decision === "NEEDS_INFO") {
+                    document.getElementById("step-parser").className = "agent-step completed";
+                    document.getElementById("step-parser").querySelector("i").className = "fa-solid fa-circle-check text-success";
+                    document.getElementById("auditResultPlaceholder").classList.add("d-none");
+                    document.getElementById("auditResultContainer").classList.add("d-none");
+                    renderClarificationCard(text, data);
+                    loadAuditLogs();
+                    return;
+                }
+
+                document.getElementById("clarificationCard").classList.add("d-none");
+                pendingClarificationContext = null;
                 completeAllSteps();
+                renderAuditResult(data);
 
-                // Render Results
-                document.getElementById("auditResultPlaceholder").classList.add("d-none");
-                const resCard = document.getElementById("auditResultContainer");
-                resCard.classList.remove("d-none");
-
-                // Hero Banner
-                const heroBanner = document.getElementById("heroDecisionBanner");
-                const title = document.getElementById("resultDecisionTitle");
-                title.innerText = data.decision;
-                heroBanner.className = "decision-banner " + 
-                    (data.decision === "APPROVE" ? "banner-approve" : 
-                     (data.decision === "MODIFY" ? "banner-modify" : "banner-escalate"));
-
-                document.getElementById("resultClausePill").innerText = data.primary_clause_id;
-                document.getElementById("resultElapsed").innerText = "Processed in " + data.elapsed_seconds + "s";
-                document.getElementById("resultRequestId").innerText = data.request_id;
-                document.getElementById("resultPrimaryClause").innerText = data.primary_clause_id;
-                document.getElementById("resultSecondaryClauses").innerText = data.secondary_clause_ids.length ? data.secondary_clause_ids.join(", ") : "None";
-                document.getElementById("resultStatus").innerText = data.request_status;
-                document.getElementById("resultJustification").innerText = data.justification;
-
-                // Best Fare
-                const fareCard = document.getElementById("bestFareCard");
-                if (data.best_compliant_fare) {
-                    fareCard.classList.remove("d-none");
-                    document.getElementById("fareAirline").innerText = data.best_compliant_fare.airline;
-                    document.getElementById("fareCabin").innerText = data.best_compliant_fare.cabin.toUpperCase();
-                    document.getElementById("farePrice").innerText = "₹" + data.best_compliant_fare.price_inr.toLocaleString();
-                    document.getElementById("fareMeta").innerText = 
-                        (data.best_compliant_fare.contracted ? "Contracted Preferred Carrier" : "Non-Contracted Carrier") + 
-                        " · Duration: " + data.best_compliant_fare.duration_hours + " hrs";
-                } else {
-                    fareCard.classList.add("d-none");
-                }
-
-                // Escalation callout
-                const humanBanner = document.getElementById("routedToHumanBanner");
-                if (data.routed_to_human) {
-                    humanBanner.classList.remove("d-none");
-                } else {
-                    humanBanner.classList.add("d-none");
-                }
-
-                // Audit Trail
-                const trailList = document.getElementById("auditTrailList");
-                trailList.innerHTML = "";
-                document.getElementById("trailCount").innerText = data.audit_trail.length;
-
-                data.audit_trail.forEach(item => {
-                    const div = document.createElement("div");
-                    div.className = "timeline-step";
-                    let payloadStr = "";
-                    if (item.payload) {
-                        payloadStr = `<pre class="my-1 text-muted" style="max-height: 120px; overflow-y: auto;">${typeof item.payload === "object" ? JSON.stringify(item.payload, null, 2) : item.payload}</pre>`;
-                    }
-                    div.innerHTML = `
-                        <div class="small fw-bold text-dark">${item.agent} <span class="badge bg-secondary ms-1">${item.action}</span></div>
-                        <div class="text-muted" style="font-size:0.75rem;">${item.ts}</div>
-                        ${payloadStr}
-                    `;
-                    trailList.appendChild(div);
-                });
-
-                // Refresh state
                 loadStats();
                 loadReviews();
                 loadBudgetsAndEmployees();
                 loadAuditLogs();
 
             } catch (err) {
-                alert("Audit failed: " + err);
+                showToast("Audit failed: " + err, "danger");
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-bolt me-1"></i> Audit Request';
             }
+        }
+
+        function renderClarificationCard(rawText, data) {
+            pendingClarificationContext = { rawText, requestId: data.request_id, questions: data.follow_up_questions || [] };
+            const card = document.getElementById("clarificationCard");
+            card.classList.remove("d-none");
+            document.getElementById("clarifyMessageText").innerHTML = `<i class="fa-solid fa-circle-info text-primary me-1"></i> ${data.clarification_message}`;
+
+            // Understood pills
+            const p = data.extracted_partial || {};
+            const pills = [];
+            if (p.employee_id) pills.push(`<span class="badge bg-success-subtle text-success border border-success-subtle">Employee: ${p.employee_name || p.employee_id} (${p.employee_id})</span>`);
+            if (p.origin_iata) pills.push(`<span class="badge bg-success-subtle text-success border border-success-subtle">From: ${p.origin_iata}</span>`);
+            if (p.destination_iata) pills.push(`<span class="badge bg-success-subtle text-success border border-success-subtle">To: ${p.destination_iata}</span>`);
+            if (p.depart_date) pills.push(`<span class="badge bg-success-subtle text-success border border-success-subtle">Depart: ${p.depart_date}</span>`);
+            if (p.purpose_text) pills.push(`<span class="badge bg-success-subtle text-success border border-success-subtle">Purpose: ${p.purpose_text}</span>`);
+
+            document.getElementById("understoodPartialBox").innerHTML = pills.length
+                ? `<div class="small fw-bold text-muted mb-1">Extracted So Far:</div><div class="d-flex flex-wrap gap-1">${pills.join("")}</div>`
+                : `<div class="small text-muted">No structured itinerary details found yet.</div>`;
+
+            // Render dynamic input fields
+            const container = document.getElementById("followUpFieldsContainer");
+            container.innerHTML = "";
+            (data.follow_up_questions || []).forEach(q => {
+                const col = document.createElement("div");
+                col.className = q.field === "purpose_text" ? "col-12" : "col-md-6";
+                const reqStar = q.required ? '<span class="text-danger">*</span>' : '<span class="text-muted">(Optional)</span>';
+                let inputHtml = "";
+
+                if (q.type === "select" || q.type === "select_city") {
+                    const opts = (q.options || []).map(o => `<option value="${o.value}">${o.label}</option>`).join("");
+                    inputHtml = `<select class="form-select form-select-sm fw-semibold" id="clarify_${q.field}"><option value="">-- Choose --</option>${opts}</select>`;
+                } else if (q.type === "date") {
+                    inputHtml = `<input type="date" class="form-control form-control-sm" id="clarify_${q.field}" value="${q.default || ''}">`;
+                } else if (q.type === "select_or_text") {
+                    const opts = (q.options || []).map(o => `<option value="${o.value}">${o.label}</option>`).join("");
+                    inputHtml = `<select class="form-select form-select-sm fw-semibold" id="clarify_${q.field}"><option value="">-- Select purpose --</option>${opts}</select>`;
+                } else {
+                    inputHtml = `<input type="text" class="form-control form-control-sm" id="clarify_${q.field}">`;
+                }
+
+                col.innerHTML = `<label class="form-label small fw-bold text-dark mb-1">${q.question} ${reqStar}</label>${inputHtml}`;
+                container.appendChild(col);
+            });
+        }
+
+        function submitClarifications() {
+            if (!pendingClarificationContext) return;
+            const payload = {};
+            const fieldMap = { "origin_iata": "origin", "destination_iata": "destination" };
+
+            for (const q of pendingClarificationContext.questions) {
+                const el = document.getElementById("clarify_" + q.field);
+                if (!el) continue;
+                const val = el.value.trim();
+                if (q.required && !val) {
+                    showToast(`Please answer: ${q.question}`, "warning");
+                    el.focus();
+                    return;
+                }
+                if (val) {
+                    const targetKey = fieldMap[q.field] || q.field;
+                    payload[targetKey] = val;
+                    if (q.field === "employee_id") {
+                        document.getElementById("actingEmployeeSelect").value = val;
+                        updateActingEmpBadge();
+                    }
+                }
+            }
+            submitAudit(payload, pendingClarificationContext.requestId);
+        }
+
+        function renderAuditResult(data) {
+            document.getElementById("auditResultPlaceholder").classList.add("d-none");
+            const resCard = document.getElementById("auditResultContainer");
+            resCard.classList.remove("d-none");
+
+            const heroBanner = document.getElementById("heroDecisionBanner");
+            document.getElementById("resultDecisionTitle").innerText = data.decision;
+            heroBanner.className = "decision-banner " +
+                (data.decision === "APPROVE" ? "banner-approve" : (data.decision === "MODIFY" ? "banner-modify" : "banner-escalate"));
+
+            document.getElementById("resultClausePill").innerText = data.primary_clause_id;
+            document.getElementById("resultElapsed").innerText = "Processed in " + data.elapsed_seconds + "s";
+            document.getElementById("resultRequestId").innerText = data.request_id;
+            document.getElementById("resultPrimaryClause").innerText = data.primary_clause_id;
+            document.getElementById("resultSecondaryClauses").innerText = (data.secondary_clause_ids && data.secondary_clause_ids.length) ? data.secondary_clause_ids.join(", ") : "None";
+            document.getElementById("resultStatus").innerText = data.request_status;
+            document.getElementById("resultJustification").innerText = data.justification;
+
+            // Dossier Strip
+            const empLabel = data.employee_id ? `${data.employee_name || data.employee_id} (${data.employee_id} · ${data.employee_department || '?'} · ${data.employee_grade || '?'})` : "Unknown";
+            document.getElementById("resEmployee").innerText = empLabel;
+            const retPart = data.return_date ? ` → Ret ${data.return_date}` : "";
+            document.getElementById("resRouteDates").innerText = `${data.origin_iata || '?'} ✈ ${data.destination_iata || '?'} | ${data.depart_date || '?'}${retPart} (${data.days_ahead}d notice)`;
+            document.getElementById("resPurposeClass").innerText = `${data.purpose_text || '-'} · ${(data.requested_class || 'economy').toUpperCase()}`;
+            document.getElementById("resBudgetCap").innerText = `Cap ₹${(data.fare_cap_inr || 0).toLocaleString()} | Left ₹${(data.dept_remaining_inr || 0).toLocaleString()}`;
+
+            // Best Compliant Fare Boarding Pass
+            const fareCard = document.getElementById("bestFareCard");
+            if (data.best_compliant_fare) {
+                fareCard.classList.remove("d-none");
+                document.getElementById("fareAirline").innerText = data.best_compliant_fare.airline;
+                document.getElementById("fareCabin").innerText = data.best_compliant_fare.cabin.toUpperCase();
+                document.getElementById("farePrice").innerText = "₹" + data.best_compliant_fare.price_inr.toLocaleString();
+                document.getElementById("fareMeta").innerText =
+                    (data.best_compliant_fare.contracted ? "Contracted Preferred Carrier" : "Non-Contracted Carrier") +
+                    ` · Duration: ${data.best_compliant_fare.duration_hours} hrs`;
+            } else {
+                fareCard.classList.add("d-none");
+            }
+
+            // Available fares table
+            const availFares = data.available_fares || [];
+            document.getElementById("availableFaresCount").innerText = availFares.length;
+            const faresHtml = availFares.length
+                ? `<table class="table table-sm small mb-0"><thead><tr><th>Airline</th><th>Cabin</th><th>Duration</th><th>Contracted</th><th class="text-end">Price</th></tr></thead><tbody>` +
+                  availFares.map(f => `<tr><td class="fw-semibold">${f.airline}</td><td>${f.cabin}</td><td>${f.duration_hours}h</td><td>${f.contracted ? '<span class="badge bg-success-subtle text-success">Yes</span>' : 'No'}</td><td class="text-end fw-bold">₹${f.price_inr.toLocaleString()}</td></tr>`).join("") +
+                  `</tbody></table>`
+                : `<div class="p-2 text-muted small">No flight fares returned for route.</div>`;
+            document.getElementById("availableFaresList").innerHTML = faresHtml;
+
+            // Human Escalation Notice
+            const humanBanner = document.getElementById("routedToHumanBanner");
+            if (data.routed_to_human) humanBanner.classList.remove("d-none");
+            else humanBanner.classList.add("d-none");
+
+            // Audit Trail
+            const trailList = document.getElementById("auditTrailList");
+            trailList.innerHTML = "";
+            document.getElementById("trailCount").innerText = (data.audit_trail || []).length;
+            (data.audit_trail || []).forEach(item => {
+                const div = document.createElement("div");
+                div.className = "timeline-step";
+                const payloadStr = item.payload
+                    ? `<pre class="my-1 text-muted small bg-light p-2 rounded" style="max-height:110px;overflow:auto;">${typeof item.payload === "object" ? JSON.stringify(item.payload, null, 2) : item.payload}</pre>`
+                    : "";
+                div.innerHTML = `<div class="small fw-bold text-dark">${item.agent} <span class="badge bg-secondary ms-1">${item.action}</span></div><div class="text-muted" style="font-size:0.74rem;">${item.ts}</div>${payloadStr}`;
+                trailList.appendChild(div);
+            });
         }
 
         function resetStepper() {
@@ -1108,13 +1177,11 @@
                 el.querySelector("i").className = "fa-regular fa-circle";
             });
         }
-
         function animateStep(id) {
             const el = document.getElementById(id);
             el.className = "agent-step active";
             el.querySelector("i").className = "fa-solid fa-spinner fa-spin";
         }
-
         function completeAllSteps() {
             ["step-parser", "step-rag", "step-fare", "step-budget", "step-approval"].forEach(id => {
                 const el = document.getElementById(id);
@@ -1123,7 +1190,7 @@
             });
         }
 
-        // Human Review Queue
+        // Human Review Queue (Full Context Dossiers)
         async function loadReviews() {
             try {
                 const res = await fetch("/api/reviews");
@@ -1137,108 +1204,139 @@
                 if (!pending.length) {
                     container.innerHTML = `
                         <div class="text-center py-5">
-                            <div class="p-3 bg-success bg-opacity-10 text-success rounded-circle d-inline-flex mb-3">
-                                <i class="fa-solid fa-check fs-2"></i>
-                            </div>
+                            <div class="p-3 bg-success bg-opacity-10 text-success rounded-circle d-inline-flex mb-3"><i class="fa-solid fa-check fs-2"></i></div>
                             <h6 class="fw-bold text-success">Review Queue Cleared</h6>
-                            <p class="text-muted small">No travel requests currently require human supervisor review.</p>
-                        </div>
-                    `;
+                            <p class="text-muted small">All escalated travel requests have been reviewed.</p>
+                        </div>`;
                 } else {
                     pending.forEach(item => {
-                        const audit = item.audit_result || {};
-                        const fareStr = audit.best_compliant_fare ? `₹${audit.best_compliant_fare.price_inr.toLocaleString()} (${audit.best_compliant_fare.airline})` : "None";
+                        const a = item.audit_result || {};
+                        const empStr = a.employee_id ? `${a.employee_name || a.employee_id} (${a.employee_id} · ${a.employee_department || '?'} · Grade ${a.employee_grade || '?'})` : "Unknown Employee";
+                        const routeStr = (a.origin_iata || a.destination_iata) ? `${a.origin_iata || '?'} ✈ ${a.destination_iata || '?'}` : "Route N/A";
+                        const dateStr = a.depart_date ? `${a.depart_date}${a.return_date ? ' → ' + a.return_date : ''} (${a.days_ahead ?? '?'}d notice)` : "Date N/A";
+                        const remBudget = a.live_dept_remaining_inr !== undefined ? a.live_dept_remaining_inr : (a.dept_remaining_inr || 0);
+                        const fares = a.available_fares || [];
+                        const recFare = a.best_compliant_fare || a.recommended_fare || (fares.length ? fares[0] : null);
+                        const defaultFareVal = recFare ? recFare.price_inr : (a.requested_fare_inr || 0);
+
+                        const fareOptionsHtml = fares.length
+                            ? fares.map(f => `<option value="${f.price_inr}" ${recFare && f.fare_id === recFare.fare_id ? 'selected' : ''}>${f.airline} (${f.cabin.toUpperCase()}) — ₹${f.price_inr.toLocaleString()} ${f.contracted ? '[Contracted]' : ''}</option>`).join("")
+                            : `<option value="${defaultFareVal}">Estimated Fare — ₹${Number(defaultFareVal).toLocaleString()}</option>`;
+
                         const div = document.createElement("div");
-                        div.className = "card border-warning border-2 mb-3 shadow-sm rounded-3";
+                        div.className = "review-dossier-card";
                         div.innerHTML = `
-                            <div class="card-body p-4">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h6 class="fw-bold mb-0 text-dark">
-                                        <i class="fa-solid fa-triangle-exclamation text-warning me-2"></i> Request: <code>${item.request_id}</code>
-                                    </h6>
-                                    <span class="badge bg-danger px-3 py-2 rounded-pill">Breach: ${audit.primary_clause_id || 'Policy Exception'}</span>
+                            <div class="review-dossier-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-warning text-dark px-2 py-1"><i class="fa-solid fa-clock me-1"></i>PENDING HUMAN REVIEW</span>
+                                    <code class="fw-bold text-dark">${item.request_id}</code>
+                                    <span class="fw-bold text-primary ms-1"><i class="fa-solid fa-user me-1"></i>${empStr}</span>
                                 </div>
-                                <div class="small text-muted mb-3"><strong>Justification:</strong> ${audit.justification || 'Escalated by Approval Manager'}</div>
-                                <div class="p-2 bg-light rounded-3 small mb-3 border">
-                                    <strong>Cheapest Alternative Option:</strong> ${fareStr}
+                                <span class="badge bg-danger px-3 py-2 rounded-pill">Primary Breach: ${a.primary_clause_id || 'Policy Exception'}</span>
+                            </div>
+                            <div class="p-4">
+                                ${a.raw_request_text ? `<div class="p-2 px-3 bg-light border rounded-3 small mb-3 text-dark"><i class="fa-solid fa-quote-left text-muted me-2"></i><em>"${a.raw_request_text}"</em></div>` : ''}
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md-3 col-6"><div class="dossier-chip"><div class="dossier-label">Route</div><div class="dossier-val">${routeStr}</div></div></div>
+                                    <div class="col-md-3 col-6"><div class="dossier-chip"><div class="dossier-label">Travel Dates</div><div class="dossier-val">${dateStr}</div></div></div>
+                                    <div class="col-md-3 col-6"><div class="dossier-chip"><div class="dossier-label">Purpose &amp; Class</div><div class="dossier-val">${a.purpose_text || '-'} · ${(a.requested_class || 'economy').toUpperCase()}</div></div></div>
+                                    <div class="col-md-3 col-6"><div class="dossier-chip"><div class="dossier-label">Dept Budget Left / Cap</div><div class="dossier-val text-primary">₹${Number(remBudget).toLocaleString()} <span class="text-muted small">/ Cap ₹${Number(a.fare_cap_inr || 0).toLocaleString()}</span></div></div></div>
                                 </div>
-                                <div class="row g-2 align-items-end">
+                                <div class="alert alert-danger-subtle border border-danger-subtle bg-danger bg-opacity-10 py-2 px-3 small mb-3 text-dark">
+                                    <strong>Auditor Findings:</strong> ${a.justification || 'Escalated by Approval Manager'}
+                                </div>
+                                <div class="row g-2 align-items-end pt-2 border-top">
                                     <div class="col-md-3">
-                                        <label class="small fw-bold text-muted">Supervisor Verdict:</label>
-                                        <select class="form-select form-select-sm fw-semibold" id="verdict_${item.request_id}">
-                                            <option value="approve">Approve Exception</option>
-                                            <option value="reject">Reject Request</option>
-                                            <option value="modify">Modify Booking</option>
+                                        <label class="small fw-bold text-muted">Fare Option / Amount to Approve:</label>
+                                        <select class="form-select form-select-sm fw-semibold" id="fareSelect_${item.request_id}" onchange="syncFareInput('${item.request_id}')">
+                                            ${fareOptionsHtml}
                                         </select>
                                     </div>
-                                    <div class="col-md-5">
-                                        <label class="small fw-bold text-muted">Reviewer Note:</label>
-                                        <input type="text" class="form-control form-control-sm" id="note_${item.request_id}" placeholder="e.g. Approved per VP project delivery exception">
+                                    <div class="col-md-2">
+                                        <label class="small fw-bold text-muted">Approved Fare (₹):</label>
+                                        <input type="number" class="form-control form-control-sm fw-bold" id="fareVal_${item.request_id}" value="${defaultFareVal}">
                                     </div>
                                     <div class="col-md-2">
-                                        <label class="small fw-bold text-muted">Reviewer:</label>
-                                        <input type="text" class="form-control form-control-sm" id="reviewer_${item.request_id}" value="Manager">
+                                        <label class="small fw-bold text-muted">Verdict:</label>
+                                        <select class="form-select form-select-sm fw-semibold" id="verdict_${item.request_id}">
+                                            <option value="approve">Approve Exception</option>
+                                            <option value="modify">Modify Booking</option>
+                                            <option value="reject">Reject Request</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="small fw-bold text-muted">Reviewer Note:</label>
+                                        <input type="text" class="form-control form-control-sm" id="note_${item.request_id}" placeholder="e.g. Approved urgent client demo">
                                     </div>
                                     <div class="col-md-2">
                                         <button class="btn btn-sm btn-primary w-100 fw-bold shadow-sm" onclick="submitVerdict('${item.request_id}')">
-                                            Submit Decision
+                                            <i class="fa-solid fa-gavel me-1"></i> Submit
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        `;
+                            </div>`;
                         container.appendChild(div);
                     });
                 }
 
-                // Past Reviews
+                // Resolved Reviews
                 const past = data.reviews.filter(r => r.status !== "PENDING");
                 if (past.length) {
                     const pastDiv = document.createElement("div");
                     pastDiv.className = "mt-4 pt-3 border-top";
                     pastDiv.innerHTML = `<h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-history me-2"></i>Resolved Supervisory Reviews (${past.length}):</h6>`;
                     past.forEach(p => {
-                        const statusBadge = p.status === "HUMAN_APPROVED" ? "bg-success" : (p.status === "HUMAN_REJECTED" ? "bg-danger" : "bg-warning");
+                        const a = p.audit_result || {};
+                        const badgeCls = p.status === "HUMAN_APPROVED" ? "bg-success" : (p.status === "HUMAN_REJECTED" ? "bg-danger" : "bg-warning text-dark");
+                        const who = a.employee_name ? `${a.employee_name} (${a.employee_id})` : (a.employee_id || "-");
+                        const route = a.origin_iata ? `${a.origin_iata}→${a.destination_iata} (${a.depart_date || ''})` : "";
                         pastDiv.innerHTML += `
-                            <div class="p-3 border rounded-3 mb-2 small d-flex justify-content-between align-items-center bg-white shadow-sm">
+                            <div class="p-3 border rounded-3 mb-2 small d-flex flex-wrap justify-content-between align-items-center bg-white shadow-sm gap-2">
                                 <div>
-                                    <code>${p.request_id}</code> · <span class="badge ${statusBadge}">${p.status}</span>
-                                    <span class="text-muted ms-2">"${p.human_note || 'No note provided'}"</span>
+                                    <code>${p.request_id}</code> · <span class="badge ${badgeCls}">${p.status}</span>
+                                    <strong class="ms-2">${who}</strong> <span class="text-muted">${route}</span>
+                                    <span class="text-muted ms-2">Note: "${p.human_note || 'No note'}"</span>
                                 </div>
                                 <div class="text-muted small">${p.reviewed_at || ''}</div>
-                            </div>
-                        `;
+                            </div>`;
                     });
                     container.appendChild(pastDiv);
                 }
-
             } catch (err) {
                 console.error("Error loading reviews:", err);
             }
         }
 
+        function syncFareInput(reqId) {
+            const sel = document.getElementById("fareSelect_" + reqId);
+            const inp = document.getElementById("fareVal_" + reqId);
+            if (sel && inp) inp.value = sel.value;
+        }
+
         async function submitVerdict(reqId) {
             const verdict = document.getElementById("verdict_" + reqId).value;
             const note = document.getElementById("note_" + reqId).value.trim();
-            const reviewer = document.getElementById("reviewer_" + reqId).value.trim();
+            const fareVal = document.getElementById("fareVal_" + reqId)?.value;
 
             try {
                 const res = await fetch("/api/reviews/" + reqId + "/verdict", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ verdict, note, reviewer })
+                    body: JSON.stringify({ verdict, note, reviewer: "Manager", fare_inr: fareVal })
                 });
                 const data = await res.json();
                 if (data.error) {
-                    alert("Error: " + data.error);
+                    showToast("Error: " + data.error, "danger");
                 } else {
-                    alert(`Verdict committed: ${data.result.final_status}. Database state, trip history & department ledger updated!`);
+                    const deducted = data.result.budget_deducted ? ` · Deducted ₹${Number(data.result.budget_deducted).toLocaleString()} from ${data.result.department}` : "";
+                    showToast(`Committed: ${data.result.final_status}${deducted}`, "success");
                     loadReviews();
                     loadStats();
                     loadBudgetsAndEmployees();
+                    loadAuditLogs();
                 }
             } catch (err) {
-                alert("Failed to submit verdict: " + err);
+                showToast("Failed to submit verdict: " + err, "danger");
             }
         }
 
@@ -1255,14 +1353,12 @@
                     body: JSON.stringify({ use_llm: false })
                 });
                 const data = await res.json();
-
                 if (data.metrics) {
                     document.getElementById("evalDecAcc").innerText = data.metrics.decision_accuracy + "%";
                     document.getElementById("evalClsAcc").innerText = data.metrics.clause_correctness + "%";
                     document.getElementById("evalFareAcc").innerText = data.metrics.fare_accuracy + "%";
                     document.getElementById("evalAvgLat").innerText = data.metrics.avg_latency + "s";
                 }
-
                 const tbody = document.getElementById("evalTableBody");
                 tbody.innerHTML = "";
                 data.results.forEach(r => {
@@ -1274,26 +1370,22 @@
                         <td class="text-center">${r.decision_ok ? '<i class="fa-solid fa-check text-success fs-5"></i>' : '<i class="fa-solid fa-xmark text-danger fs-5"></i>'}</td>
                         <td class="text-center">${r.clause_ok ? '<i class="fa-solid fa-check text-success fs-5"></i>' : '<i class="fa-solid fa-xmark text-danger fs-5"></i>'}</td>
                         <td class="text-center">${r.fare_ok ? '<i class="fa-solid fa-check text-success fs-5"></i>' : '<i class="fa-solid fa-xmark text-danger fs-5"></i>'}</td>
-                        <td class="text-end text-muted">${r.latency}s</td>
-                    `;
+                        <td class="text-end text-muted">${r.latency}s</td>`;
                     tbody.appendChild(tr);
                 });
-
-                // Confusion Matrix
                 const cm = data.confusion_matrix || {};
-                document.getElementById("cm_app_app").innerText = cm["APPROVE->APPROVE"] || 3;
+                document.getElementById("cm_app_app").innerText = cm["APPROVE->APPROVE"] || 0;
                 document.getElementById("cm_app_mod").innerText = cm["APPROVE->MODIFY"] || 0;
                 document.getElementById("cm_app_esc").innerText = cm["APPROVE->ESCALATE"] || 0;
                 document.getElementById("cm_mod_app").innerText = cm["MODIFY->APPROVE"] || 0;
-                document.getElementById("cm_mod_mod").innerText = cm["MODIFY->MODIFY"] || 2;
+                document.getElementById("cm_mod_mod").innerText = cm["MODIFY->MODIFY"] || 0;
                 document.getElementById("cm_mod_esc").innerText = cm["MODIFY->ESCALATE"] || 0;
                 document.getElementById("cm_esc_app").innerText = cm["ESCALATE->APPROVE"] || 0;
                 document.getElementById("cm_esc_mod").innerText = cm["ESCALATE->MODIFY"] || 0;
-                document.getElementById("cm_esc_esc").innerText = cm["ESCALATE->ESCALATE"] || 5;
-
-                loadStats();
+                document.getElementById("cm_esc_esc").innerText = cm["ESCALATE->ESCALATE"] || 0;
+                showToast("10-case benchmark finished cleanly!", "success");
             } catch (err) {
-                alert("Evaluation error: " + err);
+                showToast("Evaluation error: " + err, "danger");
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-play me-2"></i> Run Full Benchmark';
@@ -1311,116 +1403,123 @@
                 { id: 7, exp: "APPROVE / TP-2.1", act: "APPROVE / TP-2.1", lat: "1.15s" },
                 { id: 8, exp: "ESCALATE / TP-4.1", act: "ESCALATE / TP-4.1", lat: "1.20s" },
                 { id: 9, exp: "ESCALATE / TP-7.1", act: "ESCALATE / TP-7.1", lat: "1.24s" },
-                { id: 10, exp: "ESCALATE / TP-9.1", act: "ESCALATE / TP-9.1", lat: "1.18s" },
+                { id: 10, exp: "ESCALATE / TP-9.1", act: "ESCALATE / TP-9.1", lat: "1.18s" }
             ];
-            const tbody = document.getElementById("evalTableBody");
-            tbody.innerHTML = "";
-            cases.forEach(c => {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-                    <td class="text-center fw-bold">${c.id}</td>
-                    <td>${c.exp}</td>
-                    <td><strong>${c.act}</strong></td>
-                    <td class="text-center"><i class="fa-solid fa-check text-success fs-5"></i></td>
-                    <td class="text-center"><i class="fa-solid fa-check text-success fs-5"></i></td>
-                    <td class="text-center"><i class="fa-solid fa-check text-success fs-5"></i></td>
-                    <td class="text-end text-muted">${c.lat}</td>
-                `;
-                tbody.appendChild(tr);
-            });
+            document.getElementById("evalTableBody").innerHTML = cases.map(c => `
+                <tr><td class="text-center fw-bold">${c.id}</td><td>${c.exp}</td><td><strong>${c.act}</strong></td>
+                <td class="text-center"><i class="fa-solid fa-check text-success fs-5"></i></td>
+                <td class="text-center"><i class="fa-solid fa-check text-success fs-5"></i></td>
+                <td class="text-center"><i class="fa-solid fa-check text-success fs-5"></i></td>
+                <td class="text-end text-muted">${c.lat}</td></tr>`).join("");
         }
 
-        // Budgets & Employees
+        // Budgets, Employees, Booking History, Trip Memory
         async function loadBudgetsAndEmployees() {
             try {
-                const bRes = await fetch("/api/budgets");
-                const bData = await bRes.json();
+                const [bRes, eRes, tRes, hRes] = await Promise.all([
+                    fetch("/api/budgets"),
+                    fetch("/api/employees"),
+                    fetch("/api/trips"),
+                    fetch("/api/history")
+                ]);
+                const [bData, eData, tData, hData] = await Promise.all([bRes.json(), eRes.json(), tRes.json(), hRes.json()]);
+
+                // Budgets
                 const bContainer = document.getElementById("budgetCardsContainer");
                 bContainer.innerHTML = "";
                 bData.budgets.forEach(b => {
-                    const pct = Math.min(100, Math.max(5, (b.remaining_inr / 300000) * 100));
+                    budgetsMap[b.dept] = b.remaining_inr;
+                    const maxCap = b.dept === "ENG" ? 300000 : (b.dept === "SALES" ? 120000 : 50000);
+                    const pct = Math.min(100, Math.max(4, (b.remaining_inr / maxCap) * 100));
                     const barColor = b.remaining_inr > 50000 ? "#10b981" : (b.remaining_inr > 10000 ? "#f59e0b" : "#ef4444");
                     bContainer.innerHTML += `
                         <div class="p-3 border rounded-3 mb-3 bg-light">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="fw-bold text-dark">${b.dept} Department</span>
-                                <span class="fs-5 fw-extrabold" style="color: ${barColor}">₹${b.remaining_inr.toLocaleString()}</span>
+                                <span class="fs-5 fw-extrabold" style="color:${barColor}">₹${b.remaining_inr.toLocaleString()}</span>
                             </div>
-                            <div class="budget-progress">
-                                <div class="budget-progress-bar" style="width: ${pct}%; background-color: ${barColor};"></div>
-                            </div>
-                        </div>
-                    `;
+                            <div class="budget-progress"><div class="budget-progress-bar" style="width:${pct}%;background-color:${barColor};"></div></div>
+                        </div>`;
                 });
 
-                const eRes = await fetch("/api/employees");
-                const eData = await eRes.json();
-                const eBody = document.getElementById("employeesTableBody");
-                eBody.innerHTML = "";
-                eData.employees.forEach(e => {
-                    eBody.innerHTML += `
+                // Employees directory + Acting Employee Selector
+                employeesCache = eData.employees || [];
+                const actSel = document.getElementById("actingEmployeeSelect");
+                const curVal = actSel.value;
+                actSel.innerHTML = `<option value="">Auto-detect from request (Ask if omitted)</option>` +
+                    employeesCache.map(e => `<option value="${e.employee_id}">${e.employee_id} · ${e.name} (${e.department}, ${e.grade})</option>`).join("");
+                actSel.value = curVal;
+                updateActingEmpBadge();
+
+                document.getElementById("employeesTableBody").innerHTML = employeesCache.map(e => `
+                    <tr><td><code>${e.employee_id}</code></td><td><strong>${e.name}</strong></td><td><span class="badge bg-secondary">${e.grade}</span></td><td>${e.department}</td><td class="text-muted">${e.email}</td></tr>`).join("");
+
+                // Full Booking & Audit Request History
+                const hBody = document.getElementById("bookingHistoryTableBody");
+                const hist = hData.history || [];
+                hBody.innerHTML = hist.length ? hist.map(h => {
+                    const decCls = h.decision === "APPROVE" ? "bg-success" : (h.decision === "MODIFY" ? "bg-warning text-dark" : "bg-danger");
+                    const stCls = (h.status || "").includes("APPROVED") || (h.status || "").includes("COMPLETED") ? "bg-success-subtle text-success" : ((h.status || "").includes("REJECT") ? "bg-danger-subtle text-danger" : "bg-warning-subtle text-warning");
+                    const who = h.resolved_name ? `<strong>${h.resolved_name}</strong><div class="text-muted" style="font-size:0.74rem;">${h.employee_id} · ${h.resolved_dept || ''}</div>` : `<code>${h.employee_id || '-'}</code>`;
+                    const route = (h.origin_iata || h.destination_iata) ? `<strong>${h.origin_iata || '?'} → ${h.destination_iata || '?'}</strong><div class="text-muted" style="font-size:0.74rem;">${h.depart_date || ''}</div>` : "-";
+                    const fare = h.fare_inr ? `<strong>₹${Number(h.fare_inr).toLocaleString()}</strong><div class="text-muted" style="font-size:0.74rem;">${h.airline || ''}</div>` : `<span class="text-muted">-</span>`;
+                    return `
                         <tr>
-                            <td><code>${e.employee_id}</code></td>
-                            <td><strong>${e.name}</strong></td>
-                            <td><span class="badge bg-secondary">${e.grade}</span></td>
-                            <td>${e.department}</td>
-                            <td class="text-muted">${e.email}</td>
-                        </tr>
-                    `;
-                });
+                            <td><code>${h.request_id}</code></td>
+                            <td>${who}</td>
+                            <td>${route}</td>
+                            <td>${h.purpose || '-'} <span class="badge bg-light text-dark border">${(h.requested_class || '').toUpperCase()}</span></td>
+                            <td>${fare}</td>
+                            <td><span class="badge ${decCls}">${h.decision}</span> <code class="ms-1">${h.primary_clause_id || ''}</code></td>
+                            <td><span class="badge ${stCls} border">${h.status}</span><div class="text-muted" style="font-size:0.72rem;">${h.reviewed_by || 'system'}${h.human_note ? ': ' + h.human_note : ''}</div></td>
+                        </tr>`;
+                }).join("") : `<tr><td colspan="7" class="text-center text-muted py-3">No booking requests recorded yet.</td></tr>`;
 
-                const tRes = await fetch("/api/trips");
-                const tData = await tRes.json();
-                const tBody = document.getElementById("tripHistoryTableBody");
-                tBody.innerHTML = "";
-                tData.trips.forEach(t => {
-                    const statusBadge = t.status === "approved" || t.status === "completed" ? "bg-success" : (t.status === "rejected" ? "bg-danger" : "bg-warning");
-                    tBody.innerHTML += `
+                // SQLite Trip History
+                document.getElementById("tripHistoryTableBody").innerHTML = (tData.trips || []).map(t => {
+                    const statusBadge = (t.status === "approved" || t.status === "completed") ? "bg-success" : (t.status === "rejected" ? "bg-danger" : "bg-warning text-dark");
+                    return `
                         <tr>
                             <td><code>${t.trip_id}</code></td>
-                            <td>${t.employee_id}</td>
-                            <td><strong>${t.origin} → ${t.destination}</strong></td>
+                            <td><strong>${t.employee_name || t.employee_id}</strong> <code class="small">(${t.employee_id})</code></td>
+                            <td><strong>${t.origin || '?'} → ${t.destination || '?'}</strong></td>
                             <td>${t.depart_date}</td>
-                            <td>₹${(t.fare_inr || 0).toLocaleString()}</td>
+                            <td class="fw-bold">₹${(t.fare_inr || 0).toLocaleString()}</td>
                             <td><span class="badge ${statusBadge}">${t.status}</span></td>
                             <td><code>${t.clause_id || '-'}</code></td>
                             <td><span class="badge bg-light text-dark border">${t.decided_by}</span></td>
-                        </tr>
-                    `;
-                });
+                        </tr>`;
+                }).join("");
             } catch (err) {
-                console.error("Error loading budgets/employees:", err);
+                console.error("Error loading budgets/history:", err);
             }
         }
 
-        // Audit Trail Logs
+        async function resetSeedDatabase() {
+            if (!confirm("Reset database to initial 5 employees, 3 department budgets, and 4 seed trips?")) return;
+            const res = await fetch("/api/reset-seed", { method: "POST" });
+            if (res.ok) {
+                showToast("Memory database reset to clean seed state.", "info");
+                loadStats();
+                loadReviews();
+                loadBudgetsAndEmployees();
+                loadAuditLogs();
+            }
+        }
+
         async function loadAuditLogs() {
             const reqId = document.getElementById("logFilterReq").value.trim();
             const agent = document.getElementById("logFilterAgent").value;
-            let url = "/api/audit-log?limit=50";
+            let url = "/api/audit-log?limit=60";
             if (reqId) url += "&request_id=" + encodeURIComponent(reqId);
             if (agent) url += "&agent=" + encodeURIComponent(agent);
-
             try {
                 const res = await fetch(url);
                 const data = await res.json();
-                const tbody = document.getElementById("auditLogTableBody");
-                tbody.innerHTML = "";
-
-                data.logs.forEach(l => {
-                    let payloadStr = "-";
-                    if (l.payload) {
-                        payloadStr = `<code class="text-muted">${typeof l.payload === "object" ? JSON.stringify(l.payload) : l.payload}</code>`;
-                    }
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td class="text-muted" style="font-size:0.75rem;">${l.ts}</td>
-                        <td><code>${l.request_id}</code></td>
-                        <td><span class="badge bg-light text-dark border">${l.agent}</span></td>
-                        <td><strong>${l.action}</strong> ${payloadStr}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
+                document.getElementById("auditLogTableBody").innerHTML = (data.logs || []).map(l => {
+                    const payloadStr = l.payload ? `<code class="text-muted">${typeof l.payload === "object" ? JSON.stringify(l.payload) : l.payload}</code>` : "-";
+                    return `<tr><td class="text-muted" style="font-size:0.74rem;">${l.ts}</td><td><code>${l.request_id}</code></td><td><span class="badge bg-light text-dark border">${l.agent}</span></td><td><strong>${l.action}</strong> ${payloadStr}</td></tr>`;
+                }).join("");
             } catch (err) {
                 console.error("Error loading logs:", err);
             }

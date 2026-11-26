@@ -10,6 +10,8 @@ import json
 import logging
 from typing import Optional
 
+from semantic_kernel.functions import kernel_function
+
 from core.decision_rules import (
     CONTRACTED_AIRLINES,
     filter_compliant_fares,
@@ -30,6 +32,29 @@ from core.schemas import (
 logger = logging.getLogger(__name__)
 
 
+class BudgetCheckerPlugin:
+    """Semantic Kernel plugin exposing deterministic fare cap and department budget checking."""
+
+    def __init__(self, agent: "BudgetCheckerAgent") -> None:
+        self.agent = agent
+
+    @kernel_function(
+        name="check_budget_and_caps",
+        description="Check fare caps, travel class eligibility, preferred carriers, and remaining department budget.",
+    )
+    async def check_budget_and_caps_sk(
+        self,
+        parsed_json: str,
+        fares_json: str,
+        policy_json: str,
+    ) -> str:
+        parsed = ParsedRequest.model_validate_json(parsed_json)
+        fares = FareOptions.model_validate_json(fares_json)
+        policy = RetrievedPolicy.model_validate_json(policy_json)
+        res = await self.agent.check(parsed, fares, policy)
+        return res.model_dump_json()
+
+
 class BudgetCheckerAgent:
     """Checks fare compliance, caps, and department budget.
     
@@ -40,6 +65,7 @@ class BudgetCheckerAgent:
 
     def __init__(self, memory: MemoryStore) -> None:
         self.memory = memory
+        self.plugin = BudgetCheckerPlugin(self)
 
     async def check(
         self,

@@ -30,6 +30,7 @@ class Decision(str, Enum):
     APPROVE = "APPROVE"
     MODIFY = "MODIFY"
     ESCALATE = "ESCALATE"
+    NEEDS_INFO = "NEEDS_INFO"
 
 
 class RequestStatus(str, Enum):
@@ -38,6 +39,7 @@ class RequestStatus(str, Enum):
     HUMAN_APPROVED = "HUMAN_APPROVED"
     HUMAN_REJECTED = "HUMAN_REJECTED"
     HUMAN_MODIFIED = "HUMAN_MODIFIED"
+    NEEDS_CLARIFICATION = "NEEDS_CLARIFICATION"
 
 
 class TripStatus(str, Enum):
@@ -70,6 +72,15 @@ class ParsedRequest(BaseModel):
     requested_fare: Optional[float] = None
     is_international: bool = False
     days_ahead: int = 0
+    # Rich context & clarification metadata (with safe defaults)
+    raw_text: str = ""
+    employee_name: str = ""
+    employee_department: str = ""
+    employee_grade: str = ""
+    employee_found: bool = True
+    depart_date_missing: bool = False
+    missing_fields: list[str] = Field(default_factory=list)
+    follow_up_questions: list[dict] = Field(default_factory=list)
 
 
 class RetrievedClause(BaseModel):
@@ -123,6 +134,28 @@ class AuditResult(BaseModel):
     justification: str = ""
     routed_to_human: bool = False
     status: RequestStatus = RequestStatus.DECIDED
+    # Full audit & review context (defaulted for full backwards compatibility)
+    raw_request_text: str = ""
+    employee_id: str = ""
+    employee_name: str = ""
+    employee_department: str = ""
+    employee_grade: str = ""
+    origin_iata: str = ""
+    destination_iata: str = ""
+    depart_date: Optional[str] = None
+    return_date: Optional[str] = None
+    days_ahead: int = 0
+    purpose_text: str = ""
+    requested_class: str = "economy"
+    requested_fare_inr: Optional[float] = None
+    fare_cap_inr: float = 0.0
+    dept_remaining_inr: float = 0.0
+    quarter_trip_count: int = 0
+    available_fares: list[FareOption] = Field(default_factory=list)
+    recommended_fare: Optional[FareOption] = None
+    follow_up_questions: list[dict] = Field(default_factory=list)
+    extracted_partial: Optional[dict] = None
+    clarification_message: str = ""
 
 
 # ---------------------------------------------------------------------------

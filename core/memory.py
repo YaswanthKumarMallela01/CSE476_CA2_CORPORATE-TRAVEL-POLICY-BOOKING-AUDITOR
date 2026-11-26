@@ -80,6 +80,30 @@ class MemoryStore:
                 reviewed_at TEXT,
                 audit_result_json TEXT DEFAULT ''
             );
+            CREATE TABLE IF NOT EXISTS booking_requests (
+                request_id TEXT PRIMARY KEY,
+                employee_id TEXT DEFAULT '',
+                employee_name TEXT DEFAULT '',
+                department TEXT DEFAULT '',
+                grade TEXT DEFAULT '',
+                raw_text TEXT DEFAULT '',
+                origin_iata TEXT DEFAULT '',
+                destination_iata TEXT DEFAULT '',
+                depart_date TEXT DEFAULT '',
+                return_date TEXT DEFAULT '',
+                purpose TEXT DEFAULT '',
+                requested_class TEXT DEFAULT '',
+                decision TEXT DEFAULT '',
+                primary_clause_id TEXT DEFAULT '',
+                status TEXT DEFAULT '',
+                fare_inr REAL DEFAULT 0,
+                airline TEXT DEFAULT '',
+                justification TEXT DEFAULT '',
+                human_verdict TEXT DEFAULT '',
+                human_note TEXT DEFAULT '',
+                reviewed_by TEXT DEFAULT '',
+                created_at TEXT DEFAULT (datetime('now'))
+            );
         """)
         self.conn.commit()
 
@@ -128,7 +152,7 @@ class MemoryStore:
     ) -> None:
         """Drop all data and re-seed for evaluation isolation."""
         cur = self.conn.cursor()
-        for table in ("employees", "trip_history", "dept_budget_ledger", "audit_log", "review_queue"):
+        for table in ("employees", "trip_history", "dept_budget_ledger", "audit_log", "review_queue", "booking_requests"):
             cur.execute(f"DELETE FROM {table}")
         self.conn.commit()
         self.seed_from_json(employees_path, budgets_path, trip_history_path)
@@ -138,11 +162,33 @@ class MemoryStore:
     # ------------------------------------------------------------------
     def get_employee(self, employee_id: str) -> Optional[Employee]:
         row = self.conn.execute(
-            "SELECT * FROM employees WHERE employee_id = ?", (employee_id,)
+            "SELECT * FROM employees WHERE UPPER(employee_id) = UPPER(?)", (employee_id.strip(),)
         ).fetchone()
         if row is None:
             return None
         return Employee(**dict(row))
+
+    def get_all_employees(self) -> list[Employee]:
+        rows = self.conn.execute("SELECT * FROM employees ORDER BY employee_id").fetchall()
+        return [Employee(**dict(r)) for r in rows]
+
+    def get_employee_by_name_or_id(self, query: str) -> Optional[Employee]:
+        """Resolve an employee by exact ID, full name, or unique first-name/email match."""
+        q = query.strip()
+        if not q:
+            return None
+        emp = self.get_employee(q)
+        if emp:
+            return emp
+        ql = q.lower()
+        for e in self.get_all_employees():
+            if e.name.lower() == ql or e.email.lower() == ql:
+                return e
+        for e in self.get_all_employees():
+            parts = e.name.lower().split()
+            if ql in parts or ql in e.name.lower():
+                return e
+        return None
 
     def write_employee_access(self, employee_id: str, request_id: str) -> None:
         """Log that an employee profile was accessed (audit trail)."""
@@ -175,12 +221,120 @@ class MemoryStore:
         )
         self.conn.commit()
 
-    def update_trip_status(self, trip_id: str, status: TripStatus) -> None:
+    def update_trip_status(
+        self,
+        trip_id: str,
+        status: TripStatus,
+        fare_inr: Optional[float] = None,
+        decided_by: Optional[str] = None,
+    ) -> None:
+        if fare_inr is not None and decided_by is not None:
+            self.conn.execute(
+                "UPDATE trip_history SET status = ?, fare_inr = ?, decided_by = ? WHERE trip_id = ?",
+                (status.value, fare_inr, decided_by, trip_id),
+            )
+        elif fare_inr is not None:
+            self.conn.execute(
+                "UPDATE trip_history SET status = ?, fare_inr = ? WHERE trip_id = ?",
+                (status.value, fare_inr, trip_id),
+            )
+        elif decided_by is not None:
+            self.conn.execute(
+                "UPDATE trip_history SET status = ?, decided_by = ? WHERE trip_id = ?",
+                (status.value, decided_by, trip_id),
+            )
+        else:
+            self.conn.execute(
+                "UPDATE trip_history SET status = ? WHERE trip_id = ?",
+                (status.value, trip_id),
+            )
+        self.conn.commit()
+
+    # ------------------------------------------------------------------
+    # Rich booking requests history operations
+    # ------------------------------------------------------------------
+    def save_booking_request(self, result: AuditResult) -> None:
+        """Persist full audit request details for user-facing history and reviews."""
+        fare_obj = result.best_compliant_fare or result.recommended_fare
+        fare_price = fare_obj.price_inr if fare_obj else (result.requested_fare_inr or 0.0)
+        airline = fare_obj.airline if fare_obj else ""
         self.conn.execute(
-            "UPDATE trip_history SET status = ? WHERE trip_id = ?",
-            (status.value, trip_id),
+            """INSERT OR REPLACE INTO booking_requests (
+                request_id, employee_id, employee_name, department, grade,
+                raw_text, origin_iata, destination_iata, depart_date, return_date,
+                purpose, requested_class, decision, primary_clause_id, status,
+                fare_inr, airline, justification
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+            (
+                result.request_id,
+                result.employee_id,
+                result.employee_name,
+                result.employee_department,
+                result.employee_grade,
+                result.raw_request_text,
+                result.origin_iata,
+                result.destination_iata,
+                result.depart_date or "",
+                result.return_date or "",
+                result.purpose_text,
+                result.requested_class,
+                result.decision.value,
+                result.primary_clause_id,
+                result.status.value,
+                fare_price,
+                airline,
+                result.justification,
+            ),
         )
         self.conn.commit()
+
+    def update_booking_request_verdict(
+        self,
+        request_id: str,
+        final_status: str,
+        verdict: str,
+        note: str,
+        reviewer: str,
+        fare_inr: Optional[float] = None,
+        airline: Optional[str] = None,
+    ) -> None:
+        """Update booking_requests record when a human manager submits a verdict."""
+        if fare_inr is not None and airline:
+            self.conn.execute(
+                """UPDATE booking_requests
+                   SET status=?, human_verdict=?, human_note=?, reviewed_by=?, fare_inr=?, airline=?
+                   WHERE request_id=?""",
+                (final_status, verdict, note, reviewer, fare_inr, airline, request_id),
+            )
+        elif fare_inr is not None:
+            self.conn.execute(
+                """UPDATE booking_requests
+                   SET status=?, human_verdict=?, human_note=?, reviewed_by=?, fare_inr=?
+                   WHERE request_id=?""",
+                (final_status, verdict, note, reviewer, fare_inr, request_id),
+            )
+        else:
+            self.conn.execute(
+                """UPDATE booking_requests
+                   SET status=?, human_verdict=?, human_note=?, reviewed_by=?
+                   WHERE request_id=?""",
+                (final_status, verdict, note, reviewer, request_id),
+            )
+        self.conn.commit()
+
+    def get_booking_history(self, limit: int = 100) -> list[dict]:
+        """Return full audit/booking request history joined with employee info."""
+        rows = self.conn.execute(
+            """SELECT br.*, COALESCE(NULLIF(br.employee_name, ''), e.name, br.employee_id) as resolved_name,
+                      COALESCE(NULLIF(br.department, ''), e.department, '') as resolved_dept,
+                      COALESCE(NULLIF(br.grade, ''), e.grade, '') as resolved_grade
+               FROM booking_requests br
+               LEFT JOIN employees e ON br.employee_id = e.employee_id
+               ORDER BY br.created_at DESC
+               LIMIT ?""",
+            (limit,),
+        ).fetchall()
+        return [dict(r) for r in rows]
 
     # ------------------------------------------------------------------
     # Budget operations

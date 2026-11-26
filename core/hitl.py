@@ -49,22 +49,16 @@ def submit_verdict(
     reviewer: str,
     memory: MemoryStore,
     fare_inr: Optional[float] = None,
+    airline: Optional[str] = None,
 ) -> dict:
     """Process a human verdict on an escalated request.
     
     1. Updates review_queue status
-    2. Updates trip_history status  
-    3. Deducts fare from dept_budget_ledger if approved/modified
-    4. Appends to audit_log
-    5. Returns the updated record summary
-    
-    Args:
-        request_id: The request being reviewed.
-        verdict: 'approve', 'reject', or 'modify'.
-        note: Reviewer's note.
-        reviewer: Reviewer's name/id.
-        fare_inr: Fare amount to use (required for approve/modify).
-        memory: The shared MemoryStore.
+    2. Updates trip_history status, fare, and decided_by
+    3. Updates booking_requests history
+    4. Deducts fare from dept_budget_ledger if approved/modified
+    5. Appends to audit_log
+    6. Returns the updated record summary
     """
     # 1. Get the review item
     item = memory.get_review_item(request_id)
@@ -79,7 +73,7 @@ def submit_verdict(
     # 2. Update review_queue
     memory.update_review(request_id, verdict, note, reviewer)
 
-    # 3. Determine trip status and handle budget
+    # 3. Determine trip status
     status_map = {
         "approve": TripStatus.APPROVED,
         "reject": TripStatus.REJECTED,
@@ -87,44 +81,88 @@ def submit_verdict(
     }
     trip_status = status_map.get(verdict, TripStatus.REJECTED)
 
-    # 4. Find or create trip history record
-    # We need employee context from the audit result
-    # Look for existing trip or create one
+    # Resolve employee_id cleanly
     trips = memory.conn.execute(
         "SELECT * FROM trip_history WHERE trip_id = ?", (request_id,)
     ).fetchone()
+    emp_id = (
+        audit_data.get("employee_id")
+        or (trips["employee_id"] if trips and trips["employee_id"] not in ("", "REQ") else None)
+        or _extract_employee_id(request_id, audit_data)
+        or ""
+    )
 
+    # Resolve fare_inr cleanly
+    resolved_fare = fare_inr
+    resolved_airline = airline
+    if resolved_fare is None:
+        for key in ("best_compliant_fare", "recommended_fare"):
+            if isinstance(audit_data.get(key), dict) and audit_data[key].get("price_inr"):
+                resolved_fare = float(audit_data[key]["price_inr"])
+                resolved_airline = resolved_airline or audit_data[key].get("airline", "")
+                break
+    if resolved_fare is None and audit_data.get("requested_fare_inr"):
+        resolved_fare = float(audit_data["requested_fare_inr"])
+    if resolved_fare is None and isinstance(audit_data.get("available_fares"), list) and audit_data["available_fares"]:
+        first_fare = audit_data["available_fares"][0]
+        if isinstance(first_fare, dict) and first_fare.get("price_inr"):
+            resolved_fare = float(first_fare["price_inr"])
+            resolved_airline = resolved_airline or first_fare.get("airline", "")
+
+    # 4. Find or create trip history record
     if trips:
-        memory.update_trip_status(request_id, trip_status)
+        memory.update_trip_status(
+            request_id,
+            trip_status,
+            fare_inr=resolved_fare if verdict in ("approve", "modify") else None,
+            decided_by=f"human:{reviewer}",
+        )
     else:
-        # Create a trip record from the audit data
-        # We need employee_id from the request_id pattern or audit data
         trip = TripRecord(
             trip_id=request_id,
-            employee_id=audit_data.get("request_id", request_id).split("-")[0] if "-" in request_id else request_id,
-            origin="",
-            destination="",
-            depart_date="2026-01-01",
-            fare_inr=fare_inr or 0,
+            employee_id=emp_id or "UNKNOWN",
+            origin=audit_data.get("origin_iata", ""),
+            destination=audit_data.get("destination_iata", ""),
+            depart_date=audit_data.get("depart_date") or "2026-11-12",
+            fare_inr=resolved_fare or 0.0,
             status=trip_status,
             clause_id=audit_data.get("primary_clause_id", ""),
-            decided_by="human",
+            decided_by=f"human:{reviewer}",
         )
         memory.add_trip(trip)
 
     # 5. Deduct budget if approved or modified with a fare
-    if verdict in ("approve", "modify") and fare_inr and fare_inr > 0:
-        # Find department from audit data or trip
-        # We need to look up the employee
-        emp_id = _extract_employee_id(request_id, audit_data)
+    budget_deducted = 0.0
+    dept_name = audit_data.get("employee_department") or ""
+    if verdict in ("approve", "modify") and resolved_fare and resolved_fare > 0:
         if emp_id:
             emp = memory.get_employee(emp_id)
             if emp:
-                memory.deduct_budget(emp.department, fare_inr)
+                memory.deduct_budget(emp.department, resolved_fare)
+                budget_deducted = resolved_fare
+                dept_name = emp.department
                 logger.info(
                     "Budget deducted: INR %.0f from %s (verdict: %s by %s)",
-                    fare_inr, emp.department, verdict, reviewer,
+                    resolved_fare, emp.department, verdict, reviewer,
                 )
+
+    final_status_map = {
+        "approve": "HUMAN_APPROVED",
+        "reject": "HUMAN_REJECTED",
+        "modify": "HUMAN_MODIFIED",
+    }
+    final_status = final_status_map.get(verdict, "UNKNOWN")
+
+    # Update booking_requests ledger
+    memory.update_booking_request_verdict(
+        request_id=request_id,
+        final_status=final_status,
+        verdict=verdict,
+        note=note,
+        reviewer=reviewer,
+        fare_inr=resolved_fare if verdict in ("approve", "modify") else None,
+        airline=resolved_airline,
+    )
 
     # 6. Write audit log
     memory.write_audit_log(
@@ -132,26 +170,29 @@ def submit_verdict(
         "hitl",
         f"human_verdict_{verdict}",
         json.dumps({
+            "employee_id": emp_id,
+            "department": dept_name,
             "verdict": verdict,
+            "final_status": final_status,
             "note": note,
             "reviewer": reviewer,
-            "fare_inr": fare_inr,
+            "fare_inr": resolved_fare,
+            "airline": resolved_airline,
+            "budget_deducted": budget_deducted,
         }),
     )
 
-    final_status_map = {
-        "approve": "HUMAN_APPROVED",
-        "reject": "HUMAN_REJECTED",
-        "modify": "HUMAN_MODIFIED",
-    }
-
     result = {
         "request_id": request_id,
+        "employee_id": emp_id,
+        "department": dept_name,
         "verdict": verdict,
-        "final_status": final_status_map.get(verdict, "UNKNOWN"),
+        "final_status": final_status,
         "note": note,
         "reviewer": reviewer,
-        "fare_inr": fare_inr,
+        "fare_inr": resolved_fare,
+        "airline": resolved_airline,
+        "budget_deducted": budget_deducted,
     }
     logger.info("Human verdict processed: %s", result)
     return result

@@ -47,7 +47,18 @@ def require_api_key() -> str:
 # ---------------------------------------------------------------------------
 # OPTIONAL variables with defaults
 # ---------------------------------------------------------------------------
-GEMINI_MODEL_NAME: str = _get("GEMINI_MODEL_NAME", "gemini-2.0-flash")  # type: ignore[assignment]
+_DEFAULT_MODEL = "gemini-3-flash-preview"
+_DEPRECATED_MODELS = {"gemini-2.0-flash", "gemini-2.0-flash-exp", "gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-1.5-flash"}
+_raw_model = _get("GEMINI_MODEL_NAME", _DEFAULT_MODEL) or _DEFAULT_MODEL
+if _raw_model in _DEPRECATED_MODELS:
+    logging.getLogger("config").warning(
+        "Configured model '%s' is deprecated/unavailable on Gemini API; auto-switching to '%s'.",
+        _raw_model,
+        _DEFAULT_MODEL,
+    )
+    GEMINI_MODEL_NAME: str = _DEFAULT_MODEL
+else:
+    GEMINI_MODEL_NAME: str = _raw_model
 
 LOG_LEVEL: str = _get("LOG_LEVEL", "INFO")  # type: ignore[assignment]
 
@@ -59,8 +70,8 @@ except (ValueError, TypeError):
     TODAY = date(2026, 11, 12)
     logging.warning("Invalid TODAY_DATE '%s', falling back to 2026-11-12", _today_str)
 
-RATE_LIMIT_RPM: int = int(_get("RATE_LIMIT_RPM", "10"))  # type: ignore[arg-type]
-RATE_LIMIT_MAX_RETRIES: int = int(_get("RATE_LIMIT_MAX_RETRIES", "5"))  # type: ignore[arg-type]
+RATE_LIMIT_RPM: int = int(_get("RATE_LIMIT_RPM", "15"))  # type: ignore[arg-type]
+RATE_LIMIT_MAX_RETRIES: int = int(_get("RATE_LIMIT_MAX_RETRIES", "3"))  # type: ignore[arg-type]
 RAG_TOP_K: int = int(_get("RAG_TOP_K", "5"))  # type: ignore[arg-type]
 
 CHROMA_PERSIST_DIR: str = str(_PROJECT_ROOT / _get("CHROMA_PERSIST_DIR", "chroma_db"))  # type: ignore[arg-type]
@@ -92,8 +103,9 @@ if not os.getenv("GEMINI_MODEL_NAME"):
         "GEMINI_MODEL_NAME not set; defaulting to '%s'", GEMINI_MODEL_NAME
     )
 
-# Indian IATA codes for is_international detection
-INDIAN_IATA = {"DEL", "BOM", "BLR", "HYD", "CCU", "GOI", "MAA", "JAI", "PNQ", "AMD"}
+# Indian & International IATA codes for is_international detection
+INDIAN_IATA = {"DEL", "BOM", "BLR", "HYD", "CCU", "GOI", "MAA", "JAI", "PNQ", "AMD", "COK", "LKO", "IXC"}
+INTERNATIONAL_IATA = {"SIN", "LHR", "JFK", "DXB", "SFO", "NRT", "CDG", "FRA", "BKK"}
 
 # City name to IATA mapping
 CITY_TO_IATA: dict[str, str] = {
@@ -103,9 +115,29 @@ CITY_TO_IATA: dict[str, str] = {
     "hyderabad": "HYD",
     "kolkata": "CCU", "calcutta": "CCU",
     "goa": "GOI",
+    "chennai": "MAA", "madras": "MAA",
+    "pune": "PNQ",
+    "jaipur": "JAI",
+    "ahmedabad": "AMD",
+    "kochi": "COK", "cochin": "COK",
+    "lucknow": "LKO",
+    "chandigarh": "IXC",
     "singapore": "SIN",
     "london": "LHR",
     "new york": "JFK", "new york jfk": "JFK", "jfk": "JFK",
-    "chennai": "MAA", "madras": "MAA",
     "dubai": "DXB",
+    "san francisco": "SFO",
+    "tokyo": "NRT",
+    "paris": "CDG",
+    "frankfurt": "FRA",
+    "bangkok": "BKK",
+}
+
+IATA_TO_CITY: dict[str, str] = {
+    "DEL": "Delhi", "BOM": "Mumbai", "BLR": "Bengaluru", "HYD": "Hyderabad",
+    "CCU": "Kolkata", "GOI": "Goa", "MAA": "Chennai", "PNQ": "Pune",
+    "JAI": "Jaipur", "AMD": "Ahmedabad", "COK": "Kochi", "LKO": "Lucknow",
+    "IXC": "Chandigarh", "SIN": "Singapore", "LHR": "London", "JFK": "New York",
+    "DXB": "Dubai", "SFO": "San Francisco", "NRT": "Tokyo", "CDG": "Paris",
+    "FRA": "Frankfurt", "BKK": "Bangkok",
 }

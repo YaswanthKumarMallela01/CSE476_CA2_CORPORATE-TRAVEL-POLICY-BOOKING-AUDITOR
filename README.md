@@ -72,10 +72,10 @@ Open `.env` in the project root. The only **required** variable is:
 | Variable | Required? | How to get it |
 |----------|-----------|---------------|
 | `GOOGLE_API_KEY` | **Yes** | Free at https://aistudio.google.com/apikey |
-| `GEMINI_MODEL_NAME` | No (default: `gemini-2.0-flash`) | |
+| `GEMINI_MODEL_NAME` | No (default: `gemini-3-flash-preview`) | |
 | `LOG_LEVEL` | No (default: `INFO`) | |
 | `TODAY_DATE` | No (default: `2026-11-12`) | `YYYY-MM-DD` |
-| `RATE_LIMIT_RPM` | No (default: `10`) | |
+| `RATE_LIMIT_RPM` | No (default: `15`) | |
 | All others | No | See `.env` comments |
 
 Set your API key:

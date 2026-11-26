@@ -11,11 +11,32 @@ import json
 import logging
 from typing import Optional
 
+from semantic_kernel.functions import kernel_function
+
 from core.memory import MemoryStore
 from core.rag import PolicyRAG
 from core.schemas import ParsedRequest, RetrievedClause, RetrievedPolicy
 
 logger = logging.getLogger(__name__)
+
+
+class PolicyRetrievalPlugin:
+    """Semantic Kernel plugin exposing policy RAG search."""
+
+    def __init__(self, agent: "PolicyRetrievalAgent") -> None:
+        self.agent = agent
+
+    @kernel_function(
+        name="retrieve_policy_clauses",
+        description="Search the Corporate Travel Policy vector database for applicable clauses.",
+    )
+    async def retrieve_policy_clauses_sk(
+        self,
+        parsed_json: str,
+    ) -> str:
+        parsed = ParsedRequest.model_validate_json(parsed_json)
+        res = await self.agent.retrieve(parsed)
+        return res.model_dump_json()
 
 
 class PolicyRetrievalAgent:
@@ -35,6 +56,7 @@ class PolicyRetrievalAgent:
         self.memory = memory
         self.rag = policy_rag
         self.use_llm_rerank = use_llm_rerank
+        self.plugin = PolicyRetrievalPlugin(self)
 
     async def retrieve(self, parsed: ParsedRequest) -> RetrievedPolicy:
         """Retrieve relevant policy clauses for the parsed request.
